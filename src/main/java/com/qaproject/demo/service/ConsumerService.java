@@ -19,9 +19,22 @@ public class ConsumerService {
 		this.cr = cr;
 	}
 
-	public Consumer loginConsumer(String email, String password) {
+	public Consumer login(String email, String password) {
 		Optional<Consumer> login = Optional.ofNullable(this.cr.findConsumerByEmailAndPassword(email, password));
 		return login.orElseThrow(() -> new NoClientFound("No such Client"));
+	}
+	
+	public Consumer register(Consumer body) {
+		return Optional.ofNullable(this.cr.save(body)).orElseThrow(() -> new NoClientFound("No such Client"));
+	}
+	
+	public Boolean delete(Integer id) {
+		Integer idO = Optional.of(id).orElseThrow(() -> new NoClientFound("Null for ID"));
+		if(cr.existsById(idO)) {
+			cr.deleteById(idO);
+			return true;
+		} else return false;
+		
 	}
 
 }
