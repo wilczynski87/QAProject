@@ -1,12 +1,6 @@
 package com.qaproject.demo.clients;
 
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.OneToMany;
-
-import com.qaproject.demo.auctions.Auction;
 
 @MappedSuperclass
 public abstract class Client {

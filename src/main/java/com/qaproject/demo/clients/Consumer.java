@@ -18,6 +18,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class Consumer extends Client {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
@@ -29,5 +30,8 @@ public class Consumer extends Client {
 		super();
 	}
 	
+	public int getId() {
+		return this.id;
+	}
 	
 }

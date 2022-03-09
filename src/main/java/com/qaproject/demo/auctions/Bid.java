@@ -32,4 +32,42 @@ public class Bid {
 	@JoinColumn(name = "Auction_id")
 	private Auction auction;
 
+	public Bid() {
+		super();
+	}
+
+	public Bid(float price, Professional whoBid, Auction auction) {
+		this.price = price;
+		this.whoBid = whoBid;
+		this.auction = auction;
+	}
+
+	public float getPrice() {
+		return price;
+	}
+
+	public void setPrice(float price) {
+		this.price = price;
+	}
+
+	public Professional getWhoBid() {
+		return whoBid;
+	}
+
+	public void setWhoBid(Professional whoBid) {
+		this.whoBid = whoBid;
+	}
+
+	public Auction getAuction() {
+		return auction;
+	}
+
+	public void setAuction(Auction auction) {
+		this.auction = auction;
+	}
+
+	public int getId() {
+		return id;
+	}
+	
 }

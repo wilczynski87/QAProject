@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,7 +27,7 @@ public class ClientController {
 	
 	@GetMapping("/consumerLogin/{email}/{password}")
 	@ResponseBody 
-	public ResponseEntity<Consumer> logIn(@PathVariable("email") String email, @PathVariable("password") String password) {
+	public ResponseEntity<Consumer> logInConsumer(@PathVariable("email") String email, @PathVariable("password") String password) {
 		return new ResponseEntity<Consumer> (this.conSer.login(email, password), HttpStatus.OK);
 	}
 	
@@ -38,5 +39,9 @@ public class ClientController {
 	@DeleteMapping("/consumerDelete/{id}")
 	public ResponseEntity<Boolean> deleteConsumer(@PathVariable("id") Integer id) {
 		return new ResponseEntity<Boolean> (this.conSer.delete(id), HttpStatus.GONE);
+	}
+	@PutMapping("/consumerChange/{email}/{password}")
+	public ResponseEntity<Consumer> changeConsumer(@RequestBody Consumer body, @PathVariable("email") String email, @PathVariable("password") String password) {
+		return new ResponseEntity<Consumer> (this.conSer.change(body, email, password), HttpStatus.ACCEPTED);
 	}
 }
