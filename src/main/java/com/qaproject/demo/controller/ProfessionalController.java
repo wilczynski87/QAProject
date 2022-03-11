@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.qaproject.demo.clients.Consumer;
 import com.qaproject.demo.clients.Professional;
 import com.qaproject.demo.service.ProfessionalService;
 

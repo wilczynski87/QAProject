@@ -1,6 +1,7 @@
 package com.qaproject.demo.clients;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -30,8 +31,35 @@ public class Consumer extends Client {
 		super();
 	}
 	
+	//for unit test purposes
+	public Consumer(Integer id) {
+		this.id = id;
+	}
+	
 	public int getId() {
 		return this.id;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, listOfAuction);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Consumer other = (Consumer) obj;
+		return id == other.id && Objects.equals(listOfAuction, other.listOfAuction);
+	}
+
+	@Override
+	public String toString() {
+		return "Consumer [id=" + id + ", email= " + getEmail() + ", password= " + getPassword() + "]";
 	}
 	
 }

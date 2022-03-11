@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.qaproject.demo.auctions.Auction;
 import com.qaproject.demo.clients.Consumer;
+import com.qaproject.demo.exceptions.NoAuctionFound;
 import com.qaproject.demo.exceptions.NoClientFound;
 import com.qaproject.demo.repositories.AuctionRepo;
 import com.qaproject.demo.repositories.ConsumerRepo;
@@ -25,18 +26,13 @@ public class AuctionService {
 	}
 	
 	public Auction createAuction(Integer customerId) {
-		if(Optional.of(customerId).isPresent()) {
-			int cid = customerId;
-			if(this.cr.findById(cid).isPresent()) {
-				Consumer clientFound = this.cr.findById(cid).get();
-				Auction auction = new Auction(clientFound);
-				return this.ar.save(auction);
-			} else throw new NoClientFound("There are no such Client, to create an Auction");
-		} else throw new NullPointerException("There is no Client ID");
+		Consumer clientFound = this.cr.findById(customerId).orElseThrow(() -> new NoClientFound("There are no such Client, to create an Auction"));
+		Auction auction = new Auction(clientFound);
+		return Optional.of(this.ar.save(auction)).orElseThrow(() -> new NoAuctionFound("Could not create an auction"));
 	}
 	
-	public List<Auction> getAuctions(Integer id) {
-		return this.ar.findAllAuctionByWhoCreated(id);
+	public List<Auction> getAuctions(Integer clientId) {
+		return Optional.of(this.ar.findAllAuctionByWhoCreated(clientId)).get();
 	}
 	
 }

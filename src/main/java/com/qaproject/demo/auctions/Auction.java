@@ -1,6 +1,7 @@
 package com.qaproject.demo.auctions;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,7 +26,7 @@ public class Auction {
 	private int id;
 	
 	@ManyToOne(targetEntity = Consumer.class)
-	@JoinColumn(name = "f_key_Consumer_id")
+	@JoinColumn(name = "f_key_consumer_id")
 	private Consumer whoCreated;
 	
 	@OneToMany(mappedBy = "auction")
@@ -61,6 +62,23 @@ public class Auction {
 
 	public void setWhoCreated(Consumer whoCreated) {
 		this.whoCreated = whoCreated;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(bids, id, whoCreated);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Auction other = (Auction) obj;
+		return Objects.equals(bids, other.bids) && id == other.id && Objects.equals(whoCreated, other.whoCreated);
 	}
 	
 	

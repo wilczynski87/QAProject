@@ -28,5 +28,10 @@ public class Professional extends Client {
 	public Professional() {
 		super();
 	}
+	
+	//for unit tests
+	public Professional(int id) {
+		this.id = id;
+	}
 
 }

@@ -25,7 +25,7 @@ public class ProfessionalService {
 	}
 	
 	public Professional register(Professional body) {
-		return Optional.ofNullable(this.pf.save(body)).orElseThrow(() -> new NoClientFound("No such Client"));
+		return Optional.ofNullable(this.pf.save(body)).orElseThrow(() -> new NoClientFound("No such Professional"));
 	}
 	
 	public Boolean delete(Integer id) {
@@ -38,14 +38,14 @@ public class ProfessionalService {
 	
 	//to fix, when empty string? what to do? leave it or ... ?
 	public Professional change(Professional body, String email, String password) {
-		Professional found = this.login(email, password);
+		Professional found = this.pf.findProfessionalByEmailAndPassword(email, password);
 		found.setAddress(body.getAddress());
 		found.setEmail(body.getEmail());
 		found.setFirm(body.getFirm());
 		found.setFullName(body.getFullName());
 		found.setPassword(body.getPassword());
 		found.setPhone(body.getPhone());
-		return pf.save(found);
+		return Optional.ofNullable(this.pf.save(body)).orElseThrow(() -> new NoClientFound("No such Professional"));
 	}
 	
 }

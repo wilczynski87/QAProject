@@ -27,7 +27,6 @@ public class AuctionController {
 		return new ResponseEntity<Auction> (this.as.createAuction(cunstomerId), HttpStatus.CREATED);
 	}
 	
-	//Dose Not work!!!
 	@GetMapping("/getAuctionsByConsumerId/{id}")
 	public ResponseEntity<List<Auction>> getAuctions(@PathVariable Integer id) {
 		return new ResponseEntity<List<Auction>> (this.as.getAuctions(id), HttpStatus.ACCEPTED);

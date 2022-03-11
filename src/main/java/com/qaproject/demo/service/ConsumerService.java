@@ -3,7 +3,6 @@ package com.qaproject.demo.service;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.util.Optionals;
 import org.springframework.stereotype.Service;
 
 import com.qaproject.demo.clients.Consumer;
@@ -26,7 +25,7 @@ public class ConsumerService {
 	}
 	
 	public Consumer register(Consumer body) {
-		return Optional.ofNullable(this.cr.save(body)).orElseThrow(() -> new NoClientFound("No such Client"));
+		return Optional.of(this.cr.save(body)).orElseThrow(() -> new NoClientFound("No such Client"));
 	}
 	
 	public Boolean delete(Integer id) {
@@ -37,7 +36,6 @@ public class ConsumerService {
 		} else return false;
 	}
 	
-	//to fix, when empty string? what to do? leave it or ... ?
 	public Consumer change(Consumer body, String email, String password) {
 		Consumer found = this.login(email, password);
 		found.setAddress(body.getAddress());
@@ -46,6 +44,6 @@ public class ConsumerService {
 		found.setFullName(body.getFullName());
 		found.setPassword(body.getPassword());
 		found.setPhone(body.getPhone());
-		return cr.save(found);
+		return Optional.of(this.cr.save(body)).orElseThrow(() -> new NoClientFound("No such Client"));
 	}
 }
