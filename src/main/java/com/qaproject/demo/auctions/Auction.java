@@ -13,12 +13,7 @@ import javax.persistence.OneToMany;
 
 import com.qaproject.demo.clients.Consumer;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 @Entity
-@Data
-@NoArgsConstructor
 public class Auction {
 	
 	@Id

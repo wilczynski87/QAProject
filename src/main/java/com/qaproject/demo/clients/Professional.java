@@ -10,12 +10,7 @@ import javax.persistence.OneToMany;
 
 import com.qaproject.demo.auctions.Bid;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 @Entity
-@Data
-@NoArgsConstructor
 public class Professional extends Client {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

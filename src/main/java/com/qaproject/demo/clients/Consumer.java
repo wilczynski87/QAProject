@@ -12,12 +12,7 @@ import javax.persistence.OneToMany;
 
 import com.qaproject.demo.auctions.Auction;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 @Entity
-@Data
-@NoArgsConstructor
 public class Consumer extends Client {
 	
 	@Id
