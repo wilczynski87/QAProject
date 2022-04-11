@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import com.qaproject.demo.clients.Consumer;
+import com.qaproject.demo.exceptions.ClientAlredyExist;
 import com.qaproject.demo.repositories.ConsumerRepo;
 
 @SpringBootTest
@@ -37,13 +38,13 @@ public class ServiceTestConsumer {
 	}
 	
 	@Test
-	public void register() {
+	public void register() throws ClientAlredyExist {
 		//Given
 		Consumer consumerToSave = new Consumer();
-		consumerToSave.setEmail("email@email.com");
+		consumerToSave.setEmail("email2@email.com");
 		consumerToSave.setPassword("password");
-		Consumer ConsumerSaved = new Consumer(1);
-		ConsumerSaved.setEmail("email@email.com");
+		Consumer ConsumerSaved = new Consumer(5);
+		ConsumerSaved.setEmail("email2@email.com");
 		ConsumerSaved.setPassword("password");
 		//When
 		Mockito.when(this.cr.save(consumerToSave)).thenReturn(ConsumerSaved);
@@ -56,27 +57,33 @@ public class ServiceTestConsumer {
 	@Test
 	public void delete() {
 		//Given
-		int id = 1;
+		String email = "email@email.com";
+		String password = "password";
+		Consumer consumer = new Consumer();
+		consumer.setEmail(email);
+		consumer.setPassword(password);
 		//When
-		Mockito.when(this.cr.existsById(id)).thenReturn(true);	
+		Mockito.when(this.cr.findConsumerByEmailAndPassword(email, password)).thenReturn(consumer);
 		//Then
-		assertThat(this.cs.delete(id)).isEqualTo(true);
+		assertThat(this.cs.delete(email, password)).isFalse();
 		//Verify
-		Mockito.verify(this.cr, Mockito.times(1)).deleteById(Mockito.anyInt());
-		Mockito.verify(this.cr, Mockito.times(1)).existsById(Mockito.anyInt());			
+		Mockito.verify(this.cr, Mockito.times(1)).delete(consumer);	
 	}
 	
 	@Test
 	public void deleteGoWrong() {
 		//Given
-		int id = 1;
+		String email = "email@email.com";
+		String password = "password1";
+		Consumer consumer = new Consumer();
+		consumer.setEmail(email);
+		consumer.setPassword(password);
 		//When
-		Mockito.when(this.cr.existsById(id)).thenReturn(false);	
+		Mockito.when(this.cr.findConsumerByEmailAndPassword(email, password)).thenReturn(null);
 		//Then
-		assertThat(this.cs.delete(id)).isEqualTo(false);
+		assertThat(this.cs.delete(email, password)).isFalse();
 		//Verify
-		Mockito.verify(this.cr, Mockito.times(0)).deleteById(Mockito.anyInt());
-		Mockito.verify(this.cr, Mockito.times(1)).existsById(Mockito.anyInt());			
+		Mockito.verify(this.cr, Mockito.times(0)).delete(consumer);		
 	}
 	
 	@Test

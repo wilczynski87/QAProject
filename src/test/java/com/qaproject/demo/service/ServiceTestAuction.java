@@ -56,7 +56,7 @@ public class ServiceTestAuction {
 		Mockito.when(this.cr.findById(customerId)).thenReturn(Optional.of(consumer));
 		Mockito.when(this.ar.save(auction)).thenReturn(auction);
 		//Than
-		assertThat(this.as.createAuction(customerId)).isEqualTo(auction);
+		assertThat(this.as.createAuction(customerId, auction)).isEqualTo(auction);
 		//Verify
 		Mockito.verify(this.ar, Mockito.times(1)).save(Mockito.any(Auction.class));
 		Mockito.verify(this.cr, Mockito.times(1)).findById(Mockito.anyInt());

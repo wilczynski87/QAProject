@@ -1,4 +1,4 @@
-package com.qaproject.demo.service;
+package com.qaproject.demo.unitTests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

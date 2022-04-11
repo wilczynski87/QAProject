@@ -29,4 +29,12 @@ public class Professional extends Client {
 		this.id = id;
 	}
 
+	public String getLicenseNo() {
+		return licenseNo;
+	}
+
+	public void setLicenseNo(String licenseNo) {
+		this.licenseNo = licenseNo;
+	}
+
 }

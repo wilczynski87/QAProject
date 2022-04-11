@@ -25,14 +25,32 @@ public class AuctionService {
 		this.cr = cr;
 	}
 	
-	public Auction createAuction(Integer customerId) {
+//	public Auction createAuction(Integer customerId) {
+//		Consumer clientFound = this.cr.findById(customerId).orElseThrow(() -> new NoClientFound("There are no such Client, to create an Auction"));
+//		Auction auction = new Auction(clientFound);
+//		return Optional.of(this.ar.save(auction)).orElseThrow(() -> new NoAuctionFound("Could not create an auction"));
+//	}
+	public Auction createAuction(Integer customerId, Auction newAuction) {
 		Consumer clientFound = this.cr.findById(customerId).orElseThrow(() -> new NoClientFound("There are no such Client, to create an Auction"));
-		Auction auction = new Auction(clientFound);
-		return Optional.of(this.ar.save(auction)).orElseThrow(() -> new NoAuctionFound("Could not create an auction"));
+		newAuction.setWhoCreated(clientFound);
+		return Optional.of(this.ar.save(newAuction)).orElseThrow(() -> new NoAuctionFound("Could not create an auction"));
 	}
 	
 	public List<Auction> getAuctions(Integer clientId) {
 		return Optional.of(this.ar.findAllAuctionByWhoCreated(clientId)).get();
+	}
+	
+//	public Boolean deleteAuction(Integer id) {
+//		if(Optional.ofNullable(this.ar.findById(id)).isPresent()) {
+//			this.ar.deleteById(id);
+//			return true;
+//		} else return false; 
+//	}
+	public Boolean deleteAuction(Integer id) {
+		if(Optional.ofNullable(this.ar.findById(id)).isPresent()) {
+			return Optional.ofNullable(this.ar.findById(id)).isEmpty();
+		} return true;
+		
 	}
 	
 }

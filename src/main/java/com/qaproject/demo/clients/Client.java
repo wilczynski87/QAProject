@@ -1,5 +1,7 @@
 package com.qaproject.demo.clients;
 
+import java.util.Objects;
+
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
@@ -53,4 +55,22 @@ public abstract class Client {
 			return "Client [firm=" + firm + ", fullName=" + fullName + ", address=" + address + ", email=" + email
 					+ ", phone=" + phone + ", password=" + password + "]";
 		}
+		@Override
+		public int hashCode() {
+			return Objects.hash(address, email, firm, fullName, password, phone);
+		}
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			Client other = (Client) obj;
+			return Objects.equals(address, other.address) && Objects.equals(email, other.email)
+					&& Objects.equals(firm, other.firm) && Objects.equals(fullName, other.fullName)
+					&& Objects.equals(password, other.password) && Objects.equals(phone, other.phone);
+		}
+		
 }

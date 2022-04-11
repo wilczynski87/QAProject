@@ -10,8 +10,4 @@ public interface ConsumerRepo extends JpaRepository<Consumer, Integer> {
 	
 	public Consumer findConsumerByEmailAndPassword(String email, String password);
 	
-	//@Query()
-	//public Consumer login(String email, String password);
-	
-
 }

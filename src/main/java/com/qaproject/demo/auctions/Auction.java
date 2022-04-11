@@ -27,6 +27,17 @@ public class Auction {
 	@OneToMany(mappedBy = "auction")
 	private List<Bid> bids; 
 	
+	private String auctionStart;
+	private String title;
+	private String junkType;
+	private int volume;
+	private String containerType;
+	private int containerNumber;
+	private String startDate;
+	private String endDate;
+	private String address;
+	private String note;
+	
 	public Auction() {
 		super();
 	}
@@ -34,7 +45,7 @@ public class Auction {
 	public Auction(Consumer consumer) {
 		this.whoCreated = consumer;
 	}
-	
+
 	public int getWhoCreated() {
 		return this.whoCreated.getId();
 	}
@@ -57,6 +68,85 @@ public class Auction {
 
 	public void setWhoCreated(Consumer whoCreated) {
 		this.whoCreated = whoCreated;
+	}
+	public String getAuctionStart() {
+		return auctionStart;
+	}
+
+	public void setAuctionStart(String auctionStart) {
+		this.auctionStart = auctionStart;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getJunkType() {
+		return junkType;
+	}
+
+	public void setJunkType(String junkType) {
+		this.junkType = junkType;
+	}
+
+	public int getVolume() {
+		return volume;
+	}
+
+	public void setVolume(int volume) {
+		this.volume = volume;
+	}
+
+	public String getContainerType() {
+		return containerType;
+	}
+
+	public void setContainerType(String containerType) {
+		this.containerType = containerType;
+	}
+
+	public int getContainerNumber() {
+		return containerNumber;
+	}
+
+	public void setContainerNumber(int containerNumber) {
+		this.containerNumber = containerNumber;
+	}
+
+	public String getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+
+	public String getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
 	}
 
 	@Override

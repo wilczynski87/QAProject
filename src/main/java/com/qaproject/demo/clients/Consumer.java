@@ -34,6 +34,10 @@ public class Consumer extends Client {
 	public int getId() {
 		return this.id;
 	}
+	
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	@Override
 	public int hashCode() {

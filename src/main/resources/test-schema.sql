@@ -27,7 +27,17 @@ drop table if exists auction CASCADE;
 create table auction (
 id integer AUTO_INCREMENT,
 F_KEY_CONSUMER_ID int, 
-primary key (id)
+primary key (id),
+auction_start varchar(255),
+title varchar(255), 
+junk_type varchar(255), 
+volume int, 
+container_type varchar(255), 
+container_number int, 
+start_date varchar(255), 
+end_date varchar(255), 
+address varchar(255), 
+note varchar(255)
 );
 
 drop table if exists bid CASCADE;
@@ -36,5 +46,6 @@ id integer AUTO_INCREMENT,
 price float,
 f_key_Professional_id int,
 auction_id int,
+date varchar(255),
 primary key (id)
 );

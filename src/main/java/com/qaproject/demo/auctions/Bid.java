@@ -20,6 +20,7 @@ public class Bid {
 	private int id;
 	
 	private float price;
+	private String date;
 	
 	@ManyToOne(targetEntity = Professional.class)
 	@JoinColumn(name = "f_key_Professional_id")
@@ -39,6 +40,15 @@ public class Bid {
 		this.price = price;
 		this.whoBid = whoBid;
 		this.auction = auction;
+		this.date = "01/01/2022";
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
 	}
 
 	public float getPrice() {

@@ -6,13 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.qaproject.demo.auctions.Auction;
 import com.qaproject.demo.service.AuctionService;
 
+@CrossOrigin
 @Controller
 public class AuctionController {
 	private AuctionService as;
@@ -23,13 +27,18 @@ public class AuctionController {
 	}
 	
 	@PostMapping("/createAuction/{customerId}")
-	public ResponseEntity<Auction> createAuction(@PathVariable("customerId") Integer cunstomerId) {
-		return new ResponseEntity<Auction> (this.as.createAuction(cunstomerId), HttpStatus.CREATED);
+	public ResponseEntity<Auction> createAuction(@PathVariable("customerId") Integer cunstomerId, @RequestBody Auction newAuction) {
+		return new ResponseEntity<Auction> (this.as.createAuction(cunstomerId, newAuction), HttpStatus.CREATED);
 	}
 	
 	@GetMapping("/getAuctionsByConsumerId/{id}")
 	public ResponseEntity<List<Auction>> getAuctions(@PathVariable Integer id) {
 		return new ResponseEntity<List<Auction>> (this.as.getAuctions(id), HttpStatus.ACCEPTED);
+	}
+	
+	@DeleteMapping("/deleteAuction/{id}")
+	public ResponseEntity<Boolean> deleteAuction(@PathVariable Integer id) {
+		return new ResponseEntity<Boolean> (this.as.deleteAuction(id), HttpStatus.OK);
 	}
 	
 }

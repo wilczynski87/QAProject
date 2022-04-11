@@ -45,7 +45,7 @@ public class ProfessionalService {
 		found.setFullName(body.getFullName());
 		found.setPassword(body.getPassword());
 		found.setPhone(body.getPhone());
-		return Optional.ofNullable(this.pf.save(body)).orElseThrow(() -> new NoClientFound("No such Professional"));
+		return Optional.ofNullable(this.pf.save(found)).orElseThrow(() -> new NoClientFound("No such Professional"));
 	}
 	
 }

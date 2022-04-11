@@ -55,8 +55,14 @@ public class CustomerControllerTest {
 	public void registerClient() throws Exception {
 		//Given
 		int consumerID = 5;
+		String email = "my@email.com";
+		String password = "1234";
 		Consumer consumerToSave = new Consumer();
+		consumerToSave.setEmail(email);
+		consumerToSave.setPassword(password);
 		Consumer consumerSaved = new Consumer(consumerID);
+		consumerSaved.setEmail(email);
+		consumerSaved.setPassword(password);
 		//When and Then
 		this.mvc
             .perform(post("/consumerSignIn")
@@ -105,14 +111,14 @@ public class CustomerControllerTest {
 	@Test
 	public void deleteClient() throws Exception {
 		this.mvc
-			.perform(delete("/consumerDelete/4"))
+			.perform(delete("/consumerDelete/email@email.com/password"))
 			.andExpect(status().isGone());
 	}
 	
 	@Test
 	public void editClient() throws Exception {
 		//Given
-		int consumerID = 5;
+		int consumerID = 4;
 		Consumer consumerToChange = new Consumer(consumerID);
 		consumerToChange.setEmail("email@email.com");
 		consumerToChange.setPassword("password");
