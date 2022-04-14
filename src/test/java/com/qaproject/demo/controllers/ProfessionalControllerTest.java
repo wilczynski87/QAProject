@@ -73,7 +73,7 @@ public class ProfessionalControllerTest {
 	@Test
 	public void editClient() throws Exception {
 		//Given
-		int consumerID = 5;
+		int consumerID = 4;
 		Professional consumerToChange = new Professional(consumerID);
 		consumerToChange.setEmail("email@email.com");
 		consumerToChange.setPassword("password");

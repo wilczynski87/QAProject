@@ -42,6 +42,7 @@ public class ProfessionalController {
 	public ResponseEntity<Boolean> deleteProfessional(@PathVariable("id") Integer id) {
 		return new ResponseEntity<Boolean> (this.ps.delete(id), HttpStatus.GONE);
 	}
+	
 	@PutMapping("/professionalChange/{email}/{password}")
 	public ResponseEntity<Professional> changeConsumer(@RequestBody Professional body, @PathVariable("email") String email, @PathVariable("password") String password) {
 		return new ResponseEntity<Professional> (this.ps.change(body, email, password), HttpStatus.ACCEPTED);

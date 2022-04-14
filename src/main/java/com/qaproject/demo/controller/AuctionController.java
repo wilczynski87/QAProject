@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.qaproject.demo.auctions.Auction;
+import com.qaproject.demo.filters.Filters;
 import com.qaproject.demo.service.AuctionService;
 
 @CrossOrigin
@@ -27,8 +28,8 @@ public class AuctionController {
 	}
 	
 	@PostMapping("/createAuction/{customerId}")
-	public ResponseEntity<Auction> createAuction(@PathVariable("customerId") Integer cunstomerId, @RequestBody Auction newAuction) {
-		return new ResponseEntity<Auction> (this.as.createAuction(cunstomerId, newAuction), HttpStatus.CREATED);
+	public ResponseEntity<Auction> createAuction(@PathVariable("customerId") Integer customerId, @RequestBody Auction newAuction) {
+		return new ResponseEntity<Auction> (this.as.createAuction(customerId, newAuction), HttpStatus.CREATED);
 	}
 	
 	@GetMapping("/getAuctionsByConsumerId/{id}")
@@ -41,4 +42,8 @@ public class AuctionController {
 		return new ResponseEntity<Boolean> (this.as.deleteAuction(id), HttpStatus.OK);
 	}
 	
+	@PostMapping("/getAuctionByFilers/{professionalId}")
+	public ResponseEntity<List<Auction>> getAuctionFiltered(@PathVariable Integer professionalId, @RequestBody Filters body) {
+		return new ResponseEntity<List<Auction>> (this.as.getAuctionFiltered(professionalId, body), HttpStatus.OK);
+	}
 }

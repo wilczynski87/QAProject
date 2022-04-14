@@ -12,9 +12,11 @@ import com.qaproject.demo.auctions.Bid;
 
 @Entity
 public class Professional extends Client {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+	
 	private String licenseNo;
 	
 	@OneToMany(mappedBy = "whoBid")
@@ -26,6 +28,14 @@ public class Professional extends Client {
 	
 	//for unit tests
 	public Professional(int id) {
+		this.id = id;
+	}
+	
+	public int getId() {
+		return this.id;
+	}
+	
+	public void setId(int id) {
 		this.id = id;
 	}
 
