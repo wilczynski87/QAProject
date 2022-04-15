@@ -19,7 +19,7 @@ public class Bid {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	private float price;
+	private Float price;
 	private String date;
 	
 	@ManyToOne(targetEntity = Professional.class)

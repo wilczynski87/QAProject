@@ -12,40 +12,40 @@ import com.qaproject.demo.repositories.ProfessionalRepo;
 @Service
 public class ProfessionalService {
 	
-	private ProfessionalRepo pf;
+	private ProfessionalRepo pr;
 	
 	@Autowired
-	public ProfessionalService(ProfessionalRepo pf) {
-		this.pf = pf;
+	public ProfessionalService(ProfessionalRepo pr) {
+		this.pr = pr;
 	}
 
 	public Professional login(String email, String password) {
-		Optional<Professional> login = Optional.ofNullable(this.pf.findProfessionalByEmailAndPassword(email, password));
-		return login.orElseThrow(() -> new NoClientFound("No such Client"));
+		Optional<Professional> login = Optional.ofNullable(this.pr.findProfessionalByEmailAndPassword(email, password));
+		return login.orElseThrow(() -> new NoClientFound("No such Professional"));
 	}
 	
 	public Professional register(Professional body) {
-		return Optional.ofNullable(this.pf.save(body)).orElseThrow(() -> new NoClientFound("No such Professional"));
+		return Optional.ofNullable(this.pr.save(body)).orElseThrow(() -> new NoClientFound("No such Professional"));
 	}
 	
 	public Boolean delete(Integer id) {
 		Integer idO = Optional.of(id).orElseThrow(() -> new NoClientFound("Null for ID"));
-		if(pf.existsById(idO)) {
-			pf.deleteById(idO);
+		if(pr.existsById(idO)) {
+			pr.deleteById(idO);
 			return true;
 		} else return false;
 	}
 	
 	//to fix, when empty string? what to do? leave it or ... ?
 	public Professional change(Professional body, String email, String password) {
-		Professional found = this.pf.findProfessionalByEmailAndPassword(email, password);
+		Professional found = this.pr.findProfessionalByEmailAndPassword(email, password);
 		found.setAddress(body.getAddress());
 		found.setEmail(body.getEmail());
 		found.setFirm(body.getFirm());
 		found.setFullName(body.getFullName());
 		found.setPassword(body.getPassword());
 		found.setPhone(body.getPhone());
-		return Optional.ofNullable(this.pf.save(found)).orElseThrow(() -> new NoClientFound("No such Professional"));
+		return Optional.ofNullable(this.pr.save(found)).orElseThrow(() -> new NoClientFound("No such Professional"));
 	}
 	
 }
