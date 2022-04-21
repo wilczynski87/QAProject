@@ -30,13 +30,15 @@ public class AuctionService {
 		this.pr = pr;
 	}
 	
-	public Auction createAuction(Integer customerId, Auction newAuction) {
-		Consumer clientFound = this.cr.findById(customerId).orElseThrow(() -> new NoClientFound("There are no such Client, to create an Auction"));
+	public Auction createAuction(String customerId, Auction newAuction) {
+		Consumer clientFound = Optional.ofNullable(this.cr.getConsumerById(customerId)).orElseThrow(() -> new NoClientFound("There are no such Client, to create an Auction"));
+		System.out.println("Clinet Found" + clientFound.getFullName());
 		newAuction.setWhoCreated(clientFound);
+		System.out.println(newAuction.getWhoCreated());
 		return Optional.of(this.ar.save(newAuction)).orElseThrow(() -> new NoAuctionFound("Could not create an auction"));
 	}
 	
-	public List<Auction> getAuctions(Integer clientId) {
+	public List<Auction> getAuctions(String clientId) {
 		return Optional.of(this.ar.findAllAuctionByWhoCreated(clientId)).get();
 	}
 	
@@ -54,8 +56,8 @@ public class AuctionService {
 		
 	}
 	
-	public List<Auction> getAuctionFiltered(Integer professionalId, Filters body) {
-		Optional.ofNullable(this.pr.findById(professionalId)).orElseThrow();
+	public List<Auction> getAuctionFiltered(String professionalId, Filters body) {
+		Optional.ofNullable(this.pr.getProfessionalById(professionalId)).orElseThrow();
 		
 		List<Auction> auctions = this.ar.findAll()
 				.stream()

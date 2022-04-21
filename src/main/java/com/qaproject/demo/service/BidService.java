@@ -2,9 +2,11 @@ package com.qaproject.demo.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.qaproject.demo.auctions.Auction;
 import com.qaproject.demo.auctions.Bid;
 import com.qaproject.demo.clients.Professional;
@@ -28,8 +30,8 @@ public class BidService {
 		this.ar = ar;
 	}
 	
-	public Bid makeBid(Bid myBid, Integer professionalId, Integer auctionId) {
-		Professional prof = pr.findById(professionalId).orElseThrow(() -> new NoClientFound("No proffesional exist"));
+	public Bid makeBid(Bid myBid, String profId, Integer auctionId) {
+		Professional prof = Optional.ofNullable(this.pr.getProfessionalById(profId)).orElseThrow(() -> new NoClientFound("No proffesional exist"));
 		Auction auc = ar.findById(auctionId).orElseThrow(() -> new NoAuctionFound("No auction exist"));
 		float price = Optional.of(myBid.getPrice()).orElseThrow();
 		Bid createdBid = Optional.of(new Bid(price, prof, auc)).orElseThrow(() -> new NoBidFound("Could not CREATE a Bid")) ;
@@ -40,5 +42,17 @@ public class BidService {
 	public List<Bid> getBidsByAuctionId(Integer auctionId) {
 		return this.br.findAllBidByAuctionId(auctionId);
 	}
-	
+
+	public List<Auction> getAuctionsWithMyBids(String myId) {
+		List<String> auctionsId = Optional.ofNullable(
+				this.br.findAllAuctionsWithMyBid(myId)).orElseThrow(() -> new NoBidFound("Could not found any bids :-(")
+		);
+		
+		return auctionsId
+				.stream()
+				.map(id -> Integer.valueOf(id))
+				.map(id -> this.ar.findById(id))
+				.map(opt -> opt.get())
+				.collect(Collectors.toList());
+	}
 }

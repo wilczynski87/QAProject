@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -41,9 +42,10 @@ public class BidControllerTest {
 	@Test 
 	public void makeBid() throws JsonProcessingException, Exception {
 		//Given
-		int profId = 1;
+		String profId = UUID.randomUUID().toString();
+		String consId = UUID.randomUUID().toString();
 		Professional prof = new Professional(profId);
-		Consumer consumer = new Consumer(1);
+		Consumer consumer = new Consumer(consId);
 		Auction auction = new Auction(consumer);
 		Bid bid = new Bid(100, prof, auction);
 		bid.setId(5);
@@ -62,7 +64,8 @@ public class BidControllerTest {
 	public void getBidsByAuctionId() throws JsonProcessingException, Exception {
 		//Given
 		Bid bid = new Bid();
-		Consumer consumer = new Consumer(1);
+		String consId = UUID.randomUUID().toString();
+		Consumer consumer = new Consumer(consId);
 		Auction auction1 = new Auction(consumer);
 		auction1.setId(1);
 		bid.setAuction(auction1);

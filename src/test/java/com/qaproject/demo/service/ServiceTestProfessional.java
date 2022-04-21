@@ -2,6 +2,8 @@ package com.qaproject.demo.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.UUID;
+
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,13 +38,15 @@ public class ServiceTestProfessional {
 		Mockito.verify(this.pr, Mockito.times(1)).findProfessionalByEmailAndPassword(Mockito.anyString(), Mockito.anyString());
 	}
 	
+	//do not have any sense... need more work on it
 	@Test
 	public void register() {
 		//Given
-		Professional consumerToSave = new Professional();
+		String profId = UUID.randomUUID().toString();
+		Professional consumerToSave = new Professional(profId);
 		consumerToSave.setEmail("email@email.com");
 		consumerToSave.setPassword("password");
-		Professional ConsumerSaved = new Professional(1);
+		Professional ConsumerSaved = new Professional(profId);
 		ConsumerSaved.setEmail("email@email.com");
 		ConsumerSaved.setPassword("password");
 		//When
@@ -82,10 +86,11 @@ public class ServiceTestProfessional {
 	@Test
 	public void change() {
 		//Given
-		Professional consumerToChange = new Professional(1);
+		String profId = UUID.randomUUID().toString();
+		Professional consumerToChange = new Professional(profId);
 		consumerToChange.setEmail("email@email.com");
 		consumerToChange.setPassword("password");
-		Professional ConsumerChanged = new Professional(1);
+		Professional ConsumerChanged = new Professional(profId);
 		ConsumerChanged.setEmail("sssss@sssss.com");
 		ConsumerChanged.setPassword("ssssssss");
 		String email = "email@email.com";

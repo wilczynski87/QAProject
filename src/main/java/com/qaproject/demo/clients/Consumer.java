@@ -5,19 +5,19 @@ import java.util.Objects;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import com.qaproject.demo.auctions.Auction;
 
+@Table(name = "consumer")
+@Inheritance(
+    strategy = InheritanceType.TABLE_PER_CLASS
+)
 @Entity
 public class Consumer extends Client {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
 
 	@OneToMany(mappedBy = "whoCreated", cascade = CascadeType.ALL)
 	private List<Auction> listOfAuction;
@@ -26,22 +26,13 @@ public class Consumer extends Client {
 		super();
 	}
 	
-	//for unit test purposes
-	public Consumer(Integer id) {
-		this.id = id;
-	}
-	
-	public int getId() {
-		return this.id;
-	}
-	
-	public void setId(int id) {
-		this.id = id;
+	public Consumer(String id) {
+		super(id);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, listOfAuction);
+		return Objects.hash(getId(), listOfAuction);
 	}
 
 	@Override
@@ -53,12 +44,12 @@ public class Consumer extends Client {
 		if (getClass() != obj.getClass())
 			return false;
 		Consumer other = (Consumer) obj;
-		return id == other.id && Objects.equals(listOfAuction, other.listOfAuction);
+		return getId() == other.getId() && Objects.equals(listOfAuction, other.listOfAuction);
 	}
 
 	@Override
 	public String toString() {
-		return "Consumer [id=" + id + ", email= " + getEmail() + ", password= " + getPassword() + "]";
+		return "Consumer [id=" + getId() + ", email= " + getEmail() + ", password= " + getPassword() + "]";
 	}
 	
 }

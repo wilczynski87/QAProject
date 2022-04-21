@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -37,8 +38,8 @@ public class ServiceTestBid {
 	public void makeBid() {
 		//Given
 		int auctionId = 1;
-		int professionalId = 1;
-		Professional pro = new Professional(professionalId);
+		String profId = UUID.randomUUID().toString();
+		Professional pro = new Professional(profId);
 		Auction auc = new Auction();
 		auc.setId(auctionId);
 		float price = 100f;
@@ -47,16 +48,16 @@ public class ServiceTestBid {
 		bid.setPrice(price);
 		bid.setWhoBid(pro);
 		System.out.println(bid.toString());
-		Optional<Professional> proO = Optional.of(pro);
+		Professional proO = Optional.of(pro).get();
 		Optional<Auction> aucO = Optional.of(auc);
 		//When
 		Mockito.when(this.br.save(bid)).thenReturn(bid);
-		Mockito.when(this.pr.findById(professionalId)).thenReturn(proO);
+		Mockito.when(this.pr.getProfessionalById(profId)).thenReturn(proO);
 		Mockito.when(this.ar.findById(auctionId)).thenReturn(aucO);
 		//Then
-		assertThat(this.pr.findById(professionalId)).isEqualTo(proO);
+		assertThat(this.pr.getProfessionalById(profId)).isEqualTo(proO);
 		assertThat(this.ar.findById(auctionId)).isEqualTo(aucO);
-		assertThat(this.bs.makeBid(bid, professionalId, auctionId)).isEqualTo(bid);
+		assertThat(this.bs.makeBid(bid, profId, auctionId)).isEqualTo(bid);
 		//Verify
 		Mockito.verify(this.br, Mockito.times(1)).save(Mockito.any(Bid.class));
 	}

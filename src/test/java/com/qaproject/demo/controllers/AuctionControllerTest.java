@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -41,12 +42,13 @@ public class AuctionControllerTest {
 	@Test
 	public void createAuction() throws JsonProcessingException, Exception {
 		//Given
-		Consumer consumer = new Consumer(1);
+		String consId = UUID.randomUUID().toString();
+		Consumer consumer = new Consumer(consId);
 		Auction auction = new Auction(consumer);
 		auction.setId(4);
 		//When and Than
 		this.mvc
-			.perform(post("/createAuction/1")
+			.perform(post("/createAuction/" + consId.toString())
 				.accept(MediaType.APPLICATION_JSON)
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(this.mapped.writeValueAsString(auction)))
@@ -58,7 +60,9 @@ public class AuctionControllerTest {
 	@Test
 	public void getAuctions() throws Exception {
 		//Given
-		Consumer consumer = new Consumer(1);
+		String myId = UUID.randomUUID().toString();
+		String profId = UUID.randomUUID().toString();
+		Consumer consumer = new Consumer(myId);
 		Auction auction1 = new Auction(consumer);
 		auction1.setId(1);
 		Auction auction2 = new Auction(consumer);
@@ -66,7 +70,7 @@ public class AuctionControllerTest {
 		List<Auction> list = new ArrayList<>(); 
 		list.add(auction1);
 		list.add(auction2);
-		Professional prof = new Professional(1);
+		Professional prof = new Professional(profId);
 		Bid bid1 = new Bid(999, prof, auction1);
 		bid1.setId(1);
 		Bid bid2 = new Bid(100, prof, auction1);
@@ -75,7 +79,7 @@ public class AuctionControllerTest {
 		
 		//When and Then
 		this.mvc
-			.perform(get("/getAuctionsByConsumerId/1"))
+			.perform(get("/getAuctionsByUserId/" + myId.toString()))
 			.andExpect(status().isAccepted())
 			.andExpect(content().json(mapped.writeValueAsString(list)));
 	}

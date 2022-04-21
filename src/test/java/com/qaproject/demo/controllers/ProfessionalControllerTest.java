@@ -7,6 +7,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.UUID;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -32,30 +34,29 @@ public class ProfessionalControllerTest {
 	@Autowired
 	private ObjectMapper mapper;
 	
+	//need to do different test! this do not have any sense!
 	@Test
 	public void registerClient() throws Exception {
 		//Given
-		int consumerID = 5;
-		Professional consumerToSave = new Professional();
-		Professional consumerSaved = new Professional(consumerID);
+		String profId = UUID.randomUUID().toString();
+		Professional profToSave = new Professional(profId);
+		Professional profSaved = new Professional(profId);
 		//When and Then
 		this.mvc
             .perform(post("/professionalSignIn")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(this.mapper.writeValueAsString(consumerToSave)))
+                .content(this.mapper.writeValueAsString(profToSave)))
             .andExpect(status().isCreated())
-            .andExpect(content().json(this.mapper.writeValueAsString(consumerSaved)));
+            .andExpect(content().json(this.mapper.writeValueAsString(profSaved)));
     }
 	
 	@Test
 	public void loginClient2() throws Exception {
 		//Given
-		int consumerID = 4;
-		Professional consumer = new Professional(consumerID);
+		Professional consumer = new Professional();
 		consumer.setEmail("email@email.com");
 		consumer.setPassword("password");
-		System.out.println(consumer.toString());
 		//When and Than
 		this.mvc
 			.perform(get("/professionalLogin/email@email.com/password"))
@@ -73,11 +74,11 @@ public class ProfessionalControllerTest {
 	@Test
 	public void editClient() throws Exception {
 		//Given
-		int consumerID = 4;
-		Professional consumerToChange = new Professional(consumerID);
+		String profId = UUID.randomUUID().toString();
+		Professional consumerToChange = new Professional(profId);
 		consumerToChange.setEmail("email@email.com");
 		consumerToChange.setPassword("password");
-		Professional consumerChanged = new Professional(consumerID);
+		Professional consumerChanged = new Professional(profId);
 		consumerChanged.setEmail("SSSS@SSSS.com");
 		consumerChanged.setPassword("SSSSSSSS");
 		//When and Then

@@ -2,6 +2,8 @@ package com.qaproject.demo.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.UUID;
+
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,10 +42,11 @@ public class ServiceTestConsumer {
 	@Test
 	public void register() throws ClientAlredyExist {
 		//Given
-		Consumer consumerToSave = new Consumer();
+		String consId = UUID.randomUUID().toString();
+		Consumer consumerToSave = new Consumer(consId);
 		consumerToSave.setEmail("email2@email.com");
 		consumerToSave.setPassword("password");
-		Consumer ConsumerSaved = new Consumer(5);
+		Consumer ConsumerSaved = new Consumer(consId);
 		ConsumerSaved.setEmail("email2@email.com");
 		ConsumerSaved.setPassword("password");
 		//When
@@ -89,10 +92,11 @@ public class ServiceTestConsumer {
 	@Test
 	public void change() {
 		//Given
-		Consumer consumerToChange = new Consumer(1);
+		String consId = UUID.randomUUID().toString();
+		Consumer consumerToChange = new Consumer(consId);
 		consumerToChange.setEmail("email@email.com");
 		consumerToChange.setPassword("password");
-		Consumer ConsumerChanged = new Consumer(1);
+		Consumer ConsumerChanged = new Consumer(consId);
 		ConsumerChanged.setEmail("sssss@sssss.com");
 		ConsumerChanged.setPassword("ssssssss");
 		String email = "email@email.com";

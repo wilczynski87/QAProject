@@ -28,12 +28,12 @@ public class AuctionController {
 	}
 	
 	@PostMapping("/createAuction/{customerId}")
-	public ResponseEntity<Auction> createAuction(@PathVariable("customerId") Integer customerId, @RequestBody Auction newAuction) {
+	public ResponseEntity<Auction> createAuction(@PathVariable("customerId") String customerId, @RequestBody Auction newAuction) {
 		return new ResponseEntity<Auction> (this.as.createAuction(customerId, newAuction), HttpStatus.CREATED);
 	}
 	
-	@GetMapping("/getAuctionsByConsumerId/{id}")
-	public ResponseEntity<List<Auction>> getAuctions(@PathVariable Integer id) {
+	@GetMapping("/getAuctionsByUserId/{id}")
+	public ResponseEntity<List<Auction>> getAuctions(@PathVariable String id) {
 		return new ResponseEntity<List<Auction>> (this.as.getAuctions(id), HttpStatus.ACCEPTED);
 	}
 	
@@ -43,7 +43,7 @@ public class AuctionController {
 	}
 	
 	@PostMapping("/getAuctionByFilers/{professionalId}")
-	public ResponseEntity<List<Auction>> getAuctionFiltered(@PathVariable Integer professionalId, @RequestBody Filters body) {
+	public ResponseEntity<List<Auction>> getAuctionFiltered(@PathVariable String professionalId, @RequestBody Filters body) {
 		return new ResponseEntity<List<Auction>> (this.as.getAuctionFiltered(professionalId, body), HttpStatus.OK);
 	}
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.qaproject.demo.auctions.Auction;
 import com.qaproject.demo.auctions.Bid;
 import com.qaproject.demo.service.BidService;
 
@@ -32,7 +33,12 @@ public class BidController {
 	}
 	
 	@PostMapping("/makeBid/{professionalId}/{auctionId}")
-	public ResponseEntity<Bid> makeBid(@RequestBody Bid myBid, @PathVariable Integer professionalId, @PathVariable Integer auctionId) {
+	public ResponseEntity<Bid> makeBid(@RequestBody Bid myBid, @PathVariable String professionalId, @PathVariable Integer auctionId) {
 		return new ResponseEntity<Bid>	(this.bs.makeBid(myBid, professionalId, auctionId), HttpStatus.CREATED);
+	}
+	
+	@GetMapping("/getAuctionsWithMyBids/{myId}")
+	public ResponseEntity<List<Auction>> getAuctionsWithMyBids(@PathVariable("myId") String myId) {
+		return new ResponseEntity<List<Auction>> (this.bs.getAuctionsWithMyBids(myId), HttpStatus.OK);
 	}
 }

@@ -12,5 +12,6 @@ import com.qaproject.demo.auctions.Auction;
 public interface AuctionRepo extends JpaRepository<Auction, Integer>{
 	
 	@Query(value = "SELECT * FROM auction WHERE F_KEY_CONSUMER_ID = ?1", nativeQuery = true)
-	public List<Auction> findAllAuctionByWhoCreated(Integer id);
+	public List<Auction> findAllAuctionByWhoCreated(String clientId);
+	
 }

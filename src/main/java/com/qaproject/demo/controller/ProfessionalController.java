@@ -38,8 +38,9 @@ public class ProfessionalController {
 		return new ResponseEntity<Professional> (this.ps.register(body), HttpStatus.CREATED);
 	}
 	
+	//need to be change for UUID or email&password
 	@DeleteMapping("/professionalDelete/{id}")
-	public ResponseEntity<Boolean> deleteProfessional(@PathVariable("id") Integer id) {
+	public ResponseEntity<Boolean> deleteProfessional(@PathVariable("id") int id) {
 		return new ResponseEntity<Boolean> (this.ps.delete(id), HttpStatus.GONE);
 	}
 	

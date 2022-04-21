@@ -7,6 +7,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.UUID;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -54,7 +56,8 @@ public class CustomerControllerTest {
 	@Test
 	public void registerClient() throws Exception {
 		//Given
-		int consumerID = 5;
+//		int consumerID = 5;
+		String consumerID = UUID.randomUUID().toString();
 		String email = "my@email.com";
 		String password = "1234";
 		Consumer consumerToSave = new Consumer();
@@ -96,7 +99,8 @@ public class CustomerControllerTest {
 	@Test
 	public void loginClient2() throws Exception {
 		//Given
-		int consumerID = 4;
+//		int consumerID = 4;
+		String consumerID = UUID.randomUUID().toString();
 		Consumer consumer = new Consumer(consumerID);
 		consumer.setEmail("email@email.com");
 		consumer.setPassword("password");
@@ -118,7 +122,8 @@ public class CustomerControllerTest {
 	@Test
 	public void editClient() throws Exception {
 		//Given
-		int consumerID = 4;
+//		int consumerID = 4;
+		String consumerID = UUID.randomUUID().toString();
 		Consumer consumerToChange = new Consumer(consumerID);
 		consumerToChange.setEmail("email@email.com");
 		consumerToChange.setPassword("password");

@@ -1,11 +1,18 @@
 package com.qaproject.demo.clients;
 
 import java.util.Objects;
+import java.util.UUID;
 
+import javax.persistence.Column;
+import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
 public abstract class Client {
+	
+		@Id
+		@Column(name = "id", nullable = false) 
+		private String id = UUID.randomUUID().toString();
 		
 		private String firm;
 		private String fullName;
@@ -13,6 +20,26 @@ public abstract class Client {
 		private String email;
 		private String phone;
 		private String password;
+		
+		public Client() {
+		};
+		
+		//for unit test purposes
+		public Client(String id) {
+			this.id = id;
+		}
+		
+		public String getId() {
+			return this.id;
+		}
+		
+		public void setId(String id) {
+			this.id = id;
+		}
+		
+		public void setId() {
+			this.id = UUID.randomUUID().toString();
+		}
 		
 		public String getFirm() {
 			return firm;

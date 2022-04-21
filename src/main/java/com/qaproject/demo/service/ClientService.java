@@ -22,11 +22,8 @@ public class ClientService implements Clients<Object>{
 
 	@Override
 	public Object getClient(String email, String password) {
-		System.out.println("test");
 		Optional<Professional> prof = Optional.ofNullable(this.pr.findProfessionalByEmailAndPassword(email, password));
-		System.out.println(prof.isPresent());
 		Optional<Consumer> cons = Optional.ofNullable(this.cr.findConsumerByEmailAndPassword(email, password));
-		System.out.println("test after initialisation");
 		
 		if(prof.isPresent()) {
 			System.out.println("professional exist!");

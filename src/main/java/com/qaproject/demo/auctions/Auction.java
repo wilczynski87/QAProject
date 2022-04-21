@@ -10,9 +10,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import com.qaproject.demo.clients.Consumer;
 
+@Table(name = "auction")
 @Entity
 public class Auction {
 	
@@ -46,7 +48,7 @@ public class Auction {
 		this.whoCreated = consumer;
 	}
 
-	public int getWhoCreated() {
+	public String getWhoCreated() {
 		return this.whoCreated.getId();
 	}
 
