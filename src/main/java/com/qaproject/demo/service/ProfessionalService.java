@@ -28,14 +28,6 @@ public class ProfessionalService {
 		return Optional.ofNullable(this.pr.save(body)).orElseThrow(() -> new NoClientFound("No such Professional"));
 	}
 	
-	public Boolean delete(Integer id) {
-		Integer idO = Optional.of(id).orElseThrow(() -> new NoClientFound("Null for ID"));
-		if(pr.existsById(idO)) {
-			pr.deleteById(idO);
-			return true;
-		} else return false;
-	}
-	
 	//to fix, when empty string? what to do? leave it or ... ?
 	public Professional change(Professional body, String email, String password) {
 		Professional found = this.pr.findProfessionalByEmailAndPassword(email, password);
@@ -46,6 +38,15 @@ public class ProfessionalService {
 		found.setPassword(body.getPassword());
 		found.setPhone(body.getPhone());
 		return Optional.ofNullable(this.pr.save(found)).orElseThrow(() -> new NoClientFound("No such Professional"));
+	}
+	
+	public Boolean delete(String email, String password) {
+		Professional prof = Optional.of(this.pr.findProfessionalByEmailAndPassword(email, password))
+				.orElseThrow(() -> new NoClientFound("Can not find this professional"));
+		if(Optional.ofNullable(prof).isPresent()) {
+			this.pr.delete(prof);
+			return Optional.ofNullable(prof).isEmpty();
+		} else return false;
 	}
 	
 }

@@ -23,6 +23,10 @@ public class Bid {
 	
 	private Float price;
 	private String date;
+	private String profFirm;
+	private int howManyDays;
+	private String startDate;
+	private String endDate;
 	
 	@ManyToOne(targetEntity = Professional.class)
 	@JoinColumn(name = "f_key_Professional_id")
@@ -61,6 +65,38 @@ public class Bid {
 		this.price = price;
 	}
 
+	public String getProfFirm() {
+		return profFirm;
+	}
+
+	public void setProfFirm(String profFirm) {
+		this.profFirm = profFirm;
+	}
+
+	public int getHowManyDays() {
+		return howManyDays;
+	}
+
+	public void setHowManyDays(int howManyDays) {
+		this.howManyDays = howManyDays;
+	}
+
+	public String getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+
+	public String getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+
 	public Professional getWhoBid() {
 		return whoBid;
 	}
@@ -86,13 +122,8 @@ public class Bid {
 	}
 
 	@Override
-	public String toString() {
-		return "Bid [id=" + id + ", price=" + price + ", whoBid=" + whoBid + ", auction=" + auction + "]";
-	}
-
-	@Override
 	public int hashCode() {
-		return Objects.hash(auction, id, price, whoBid);
+		return Objects.hash(auction, date, endDate, howManyDays, id, price, profFirm, startDate, whoBid);
 	}
 
 	@Override
@@ -104,9 +135,17 @@ public class Bid {
 		if (getClass() != obj.getClass())
 			return false;
 		Bid other = (Bid) obj;
-		return Objects.equals(auction, other.auction) && id == other.id
-				&& Float.floatToIntBits(price) == Float.floatToIntBits(other.price)
-				&& Objects.equals(whoBid, other.whoBid);
+		return Objects.equals(auction, other.auction) && Objects.equals(date, other.date)
+				&& Objects.equals(endDate, other.endDate) && howManyDays == other.howManyDays && id == other.id
+				&& Objects.equals(price, other.price) && Objects.equals(profFirm, other.profFirm)
+				&& Objects.equals(startDate, other.startDate) && Objects.equals(whoBid, other.whoBid);
+	}
+
+	@Override
+	public String toString() {
+		return "Bid [id=" + id + ", price=" + price + ", date=" + date + ", profFirm=" + profFirm + ", howManyDays="
+				+ howManyDays + ", startDate=" + startDate + ", endDate=" + endDate + ", whoBid=" + whoBid
+				+ ", auction=" + auction + "]";
 	}
 	
 }

@@ -47,5 +47,9 @@ price float,
 f_key_Professional_id varchar(255),
 auction_id int,
 date varchar(255),
+prof_firm varchar(255),
+how_many_days int,
+start_date varchar(255),
+end_date varchar(255),
 primary key (id)
 );

@@ -57,31 +57,31 @@ public class ServiceTestProfessional {
 		Mockito.verify(this.pr, Mockito.times(1)).save(Mockito.any(Professional.class));
 	}
 	
-	@Test
-	public void delete() {
-		//Given
-		int id = 1;
-		//When
-		Mockito.when(this.pr.existsById(id)).thenReturn(true);	
-		//Then
-		assertThat(this.ps.delete(id)).isEqualTo(true);
-		//Verify
-		Mockito.verify(this.pr, Mockito.times(1)).deleteById(Mockito.anyInt());
-		Mockito.verify(this.pr, Mockito.times(1)).existsById(Mockito.anyInt());			
-	}
+//	@Test
+//	public void delete() {
+//		//Given
+//		int id = 1;
+//		//When
+//		Mockito.when(this.pr.existsById(id)).thenReturn(true);	
+//		//Then
+//		assertThat(this.ps.delete(id)).isEqualTo(true);
+//		//Verify
+//		Mockito.verify(this.pr, Mockito.times(1)).deleteById(Mockito.anyInt());
+//		Mockito.verify(this.pr, Mockito.times(1)).existsById(Mockito.anyInt());			
+//	}
 	
-	@Test
-	public void deleteGoWrong() {
-		//Given
-		int id = 1;
-		//When
-		Mockito.when(this.pr.existsById(id)).thenReturn(false);	
-		//Then
-		assertThat(this.ps.delete(id)).isEqualTo(false);
-		//Verify
-		Mockito.verify(this.pr, Mockito.times(0)).deleteById(Mockito.anyInt());
-		Mockito.verify(this.pr, Mockito.times(1)).existsById(Mockito.anyInt());			
-	}
+//	@Test
+//	public void deleteGoWrong() {
+//		//Given
+//		int id = 1;
+//		//When
+//		Mockito.when(this.pr.existsById(id)).thenReturn(false);	
+//		//Then
+//		assertThat(this.ps.delete(id)).isEqualTo(false);
+//		//Verify
+//		Mockito.verify(this.pr, Mockito.times(0)).deleteById(Mockito.anyInt());
+//		Mockito.verify(this.pr, Mockito.times(1)).existsById(Mockito.anyInt());			
+//	}
 	
 	@Test
 	public void change() {

@@ -31,12 +31,17 @@ public class BidService {
 	}
 	
 	public Bid makeBid(Bid myBid, String profId, Integer auctionId) {
-		Professional prof = Optional.ofNullable(this.pr.getProfessionalById(profId)).orElseThrow(() -> new NoClientFound("No proffesional exist"));
-		Auction auc = ar.findById(auctionId).orElseThrow(() -> new NoAuctionFound("No auction exist"));
-		float price = Optional.of(myBid.getPrice()).orElseThrow();
-		Bid createdBid = Optional.of(new Bid(price, prof, auc)).orElseThrow(() -> new NoBidFound("Could not CREATE a Bid")) ;
+		Professional prof = Optional.ofNullable(this.pr.getProfessionalById(profId))
+				.orElseThrow(() -> new NoClientFound("No proffesional exist"));
 		
-		return Optional.of(this.br.save(createdBid)).orElseThrow(() -> new NoBidFound("Could not SAVE the Bid"));
+		Auction auc = ar.findById(auctionId)
+				.orElseThrow(() -> new NoAuctionFound("No auction exist"));
+		
+		myBid.setAuction(auc);
+		myBid.setWhoBid(prof);
+		
+		return Optional.of(this.br.save(myBid))
+				.orElseThrow(() -> new NoBidFound("Could not SAVE the Bid"));
 	}
 	
 	public List<Bid> getBidsByAuctionId(Integer auctionId) {
