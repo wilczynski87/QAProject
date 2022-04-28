@@ -41,4 +41,10 @@ public class BidController {
 	public ResponseEntity<List<Auction>> getAuctionsWithMyBids(@PathVariable("myId") String myId) {
 		return new ResponseEntity<List<Auction>> (this.bs.getAuctionsWithMyBids(myId), HttpStatus.OK);
 	}
+	//for test only
+//	@DeleteMapping("/deleteBid/{bidId}")
+//	public ResponseEntity<Boolean> deleteBidById(@PathVariable("bidId") Integer bidId) {
+//		return new ResponseEntity<Boolean> (this.bs.deleteBid(bidId), HttpStatus.OK);
+//	}
+	
 }

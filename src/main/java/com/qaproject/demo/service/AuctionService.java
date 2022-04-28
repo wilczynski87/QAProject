@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.qaproject.demo.auctions.Auction;
+import com.qaproject.demo.auctions.Bid;
 import com.qaproject.demo.clients.Consumer;
 import com.qaproject.demo.exceptions.NoAuctionFound;
 import com.qaproject.demo.exceptions.NoClientFound;
@@ -47,8 +48,11 @@ public class AuctionService {
 	//method to delete auction form Auction Table, together with Bids
 	public Boolean deleteAuction(Integer id) {
 		if(Optional.ofNullable(this.ar.findById(id)).isPresent()) {
+			System.out.println("deleting auction started and present");
+			List<Bid> bidList = this.bs.getBidsByAuctionId(id);
+			if(bidList.size() > 0) this.bs.getBidsByAuctionId(id).forEach(bid -> this.bs.deleteBid(bid.getId()));
 			this.ar.deleteById(id);
-			this.bs.getBidsByAuctionId(id).forEach(bid -> this.bs.deleteBid(bid.getId()));
+//			System.out.println(this.bs.getBidsByAuctionId(id));
 			return Optional.ofNullable(this.ar.findById(id)).isEmpty();
 		} return true;
 		
