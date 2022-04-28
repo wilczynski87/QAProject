@@ -46,4 +46,5 @@ public class AuctionController {
 	public ResponseEntity<List<Auction>> getAuctionFiltered(@PathVariable String professionalId, @RequestBody Filters body) {
 		return new ResponseEntity<List<Auction>> (this.as.getAuctionFiltered(professionalId, body), HttpStatus.OK);
 	}
+	
 }

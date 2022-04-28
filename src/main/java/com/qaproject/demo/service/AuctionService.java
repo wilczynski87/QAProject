@@ -22,12 +22,14 @@ public class AuctionService {
 	private AuctionRepo ar;
 	private ConsumerRepo cr;
 	private ProfessionalRepo pr;
+	private BidService bs;
 	
 	@Autowired
-	public AuctionService(AuctionRepo ar, ConsumerRepo cr, ProfessionalRepo pr) {
+	public AuctionService(AuctionRepo ar, ConsumerRepo cr, ProfessionalRepo pr, BidService bs) {
 		this.ar = ar;
 		this.cr = cr;
 		this.pr = pr;
+		this.bs = bs;
 	}
 	
 	public Auction createAuction(String customerId, Auction newAuction) {
@@ -42,15 +44,11 @@ public class AuctionService {
 		return Optional.of(this.ar.findAllAuctionByWhoCreated(clientId)).get();
 	}
 	
-//	public Boolean deleteAuction(Integer id) {
-//		if(Optional.ofNullable(this.ar.findById(id)).isPresent()) {
-//			this.ar.deleteById(id);
-//			return true;
-//		} else return false; 
-//	}
+	//method to delete auction form Auction Table, together with Bids
 	public Boolean deleteAuction(Integer id) {
 		if(Optional.ofNullable(this.ar.findById(id)).isPresent()) {
 			this.ar.deleteById(id);
+			this.bs.getBidsByAuctionId(id).forEach(bid -> this.bs.deleteBid(bid.getId()));
 			return Optional.ofNullable(this.ar.findById(id)).isEmpty();
 		} return true;
 		

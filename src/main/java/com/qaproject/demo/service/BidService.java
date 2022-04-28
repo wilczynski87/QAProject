@@ -60,4 +60,14 @@ public class BidService {
 				.map(opt -> opt.get())
 				.collect(Collectors.toList());
 	}
+	public List<Bid> getBidsByAuctionId(int auctionId) {
+		return this.br.findAllBidByAuctionId(auctionId);
+	}
+	
+	public Boolean deleteBid(int bidId) {
+		if(this.br.existsById(bidId)) {
+			this.br.deleteById(bidId);
+			return !this.br.existsById(bidId);
+		} else throw new NoBidFound("Could not found bid with ID " + bidId);
+	}
 }
