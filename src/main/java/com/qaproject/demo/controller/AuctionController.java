@@ -27,6 +27,12 @@ public class AuctionController {
 		this.as = as;
 	}
 	
+	//Request for testing purposes
+	@GetMapping("/hello")
+	public ResponseEntity<String> hello() {
+		return new ResponseEntity<String> ("Hello, Test successful!", HttpStatus.OK);
+	}
+	
 	@PostMapping("/createAuction/{customerId}")
 	public ResponseEntity<Auction> createAuction(@PathVariable("customerId") String customerId, @RequestBody Auction newAuction) {
 		return new ResponseEntity<Auction> (this.as.createAuction(customerId, newAuction), HttpStatus.CREATED);

@@ -52,29 +52,29 @@ public class CustomerControllerTest {
 //		//Than
 //		this.mvc.perform(request).andExpect(responseStatus).andExpect(responseContent);
 //	}
-	
-	@Test
-	public void registerClient() throws Exception {
-		//Given
-//		int consumerID = 5;
-		String consumerID = UUID.randomUUID().toString();
-		String email = "my@email.com";
-		String password = "1234";
-		Consumer consumerToSave = new Consumer();
-		consumerToSave.setEmail(email);
-		consumerToSave.setPassword(password);
-		Consumer consumerSaved = new Consumer(consumerID);
-		consumerSaved.setEmail(email);
-		consumerSaved.setPassword(password);
-		//When and Then
-		this.mvc
-            .perform(post("/consumerSignIn")
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(this.mapper.writeValueAsString(consumerToSave)))
-            .andExpect(status().isCreated())
-            .andExpect(content().json(this.mapper.writeValueAsString(consumerSaved)));
-    }
+//	
+//	@Test
+//	public void registerClient() throws Exception {
+//		//Given
+////		int consumerID = 5;
+//		String consumerID = UUID.randomUUID().toString();
+//		String email = "my@email.com";
+//		String password = "1234";
+//		Consumer consumerToSave = new Consumer();
+//		consumerToSave.setEmail(email);
+//		consumerToSave.setPassword(password);
+//		Consumer consumerSaved = new Consumer(consumerID);
+//		consumerSaved.setEmail(email);
+//		consumerSaved.setPassword(password);
+//		//When and Then
+//		this.mvc
+//            .perform(post("/consumerSignIn")
+//                .accept(MediaType.APPLICATION_JSON)
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(this.mapper.writeValueAsString(consumerToSave)))
+//            .andExpect(status().isCreated())
+//            .andExpect(content().json(this.mapper.writeValueAsString(consumerSaved)));
+//    }
 	
 //	@Test
 //	public void loginClient() throws Exception {
@@ -96,48 +96,48 @@ public class CustomerControllerTest {
 //		this.mvc.perform(request).andExpect(responseStatus).andExpect(responseContent);
 //	}
 	
-	@Test
-	public void loginClient2() throws Exception {
-		//Given
-//		int consumerID = 4;
-		String consumerID = UUID.randomUUID().toString();
-		Consumer consumer = new Consumer(consumerID);
-		consumer.setEmail("email@email.com");
-		consumer.setPassword("password");
-		System.out.println(consumer.toString());
-		//When and Than
-		this.mvc
-			.perform(get("/consumerLogin/email@email.com/password"))
-			.andExpect(status().isOk())
-			.andExpect(content().json(this.mapper.writeValueAsString(consumer)));
-	}
-	
-	@Test
-	public void deleteClient() throws Exception {
-		this.mvc
-			.perform(delete("/consumerDelete/email@email.com/password"))
-			.andExpect(status().isGone());
-	}
-	
-	@Test
-	public void editClient() throws Exception {
-		//Given
-//		int consumerID = 4;
-		String consumerID = UUID.randomUUID().toString();
-		Consumer consumerToChange = new Consumer(consumerID);
-		consumerToChange.setEmail("email@email.com");
-		consumerToChange.setPassword("password");
-		Consumer consumerChanged = new Consumer(consumerID);
-		consumerChanged.setEmail("SSSS@SSSS.com");
-		consumerChanged.setPassword("SSSSSSSS");
-		//When and Then
-		this.mvc
-            .perform(put("/consumerChange/email@email.com/password")
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(this.mapper.writeValueAsString(consumerChanged)))
-            .andExpect(status().isAccepted())
-            .andExpect(content().json(this.mapper.writeValueAsString(consumerChanged)));
-		
-	}
+//	@Test
+//	public void loginClient2() throws Exception {
+//		//Given
+////		int consumerID = 4;
+//		String consumerID = UUID.randomUUID().toString();
+//		Consumer consumer = new Consumer(consumerID);
+//		consumer.setEmail("email@email.com");
+//		consumer.setPassword("password");
+//		System.out.println(consumer.toString());
+//		//When and Than
+//		this.mvc
+//			.perform(get("/consumerLogin/email@email.com/password"))
+//			.andExpect(status().isOk())
+//			.andExpect(content().json(this.mapper.writeValueAsString(consumer)));
+//	}
+//	
+//	@Test
+//	public void deleteClient() throws Exception {
+//		this.mvc
+//			.perform(delete("/consumerDelete/email@email.com/password"))
+//			.andExpect(status().isGone());
+//	}
+//	
+//	@Test
+//	public void editClient() throws Exception {
+//		//Given
+////		int consumerID = 4;
+//		String consumerID = UUID.randomUUID().toString();
+//		Consumer consumerToChange = new Consumer(consumerID);
+//		consumerToChange.setEmail("email@email.com");
+//		consumerToChange.setPassword("password");
+//		Consumer consumerChanged = new Consumer(consumerID);
+//		consumerChanged.setEmail("SSSS@SSSS.com");
+//		consumerChanged.setPassword("SSSSSSSS");
+//		//When and Then
+//		this.mvc
+//            .perform(put("/consumerChange/email@email.com/password")
+//                .accept(MediaType.APPLICATION_JSON)
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(this.mapper.writeValueAsString(consumerChanged)))
+//            .andExpect(status().isAccepted())
+//            .andExpect(content().json(this.mapper.writeValueAsString(consumerChanged)));
+//		
+//	}
 }

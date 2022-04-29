@@ -39,6 +39,7 @@ public class BidControllerTest {
 	@Autowired
 	private ObjectMapper mapper;
 	
+	@Disabled("Early Deployment")
 	@Test 
 	public void makeBid() throws JsonProcessingException, Exception {
 		//Given
