@@ -1,15 +1,17 @@
 package com.qaproject.demo.clients;
 
 import java.util.List;
-import java.util.Objects;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.qaproject.demo.address.Address;
 import com.qaproject.demo.auctions.Auction;
 
 @Table(name = "consumer")
@@ -22,6 +24,10 @@ public class Consumer extends Client {
 	@OneToMany(mappedBy = "whoCreated", cascade = CascadeType.ALL)
 	private List<Auction> listOfAuction;
 	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "user_address")
+	private Address address;
+	
 	public Consumer() {
 		super();
 	}
@@ -29,27 +35,12 @@ public class Consumer extends Client {
 	public Consumer(String id) {
 		super(id);
 	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(getId(), listOfAuction);
+	
+	public Address getAddress() {
+		return address;
 	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Consumer other = (Consumer) obj;
-		return getId() == other.getId() && Objects.equals(listOfAuction, other.listOfAuction);
-	}
-
-	@Override
-	public String toString() {
-		return "Consumer [id=" + getId() + ", email= " + getEmail() + ", password= " + getPassword() + "]";
+	public void setAddress(Address address) {
+		this.address = address;
 	}
 	
 }

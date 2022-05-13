@@ -1,6 +1,28 @@
 package com.qaproject.demo.address;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import com.qaproject.demo.auctions.Auction;
+import com.qaproject.demo.clients.Consumer;
+
+@Table(name = "address")
+@Entity
 public class Address {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+	
+	@OneToOne(mappedBy = "address")
+	private Consumer client;
+	
+	@OneToOne(mappedBy = "address")
+	private Auction auction;
 	
 	private String label; //= "Invalidenstraße 117, 10115 Berlin, Deutschland"
 	
@@ -20,6 +42,8 @@ public class Address {
 	private double lat;
 	private double lng;
 	
+	Address() {};
+	
 	Address(double lat, double lng) {
 		this.lat = lat;
 		this.lng = lng;
@@ -33,6 +57,18 @@ public class Address {
 		this.label = street + " " + houseNumber + ", " + postalCode + " " + city;
 	}
 	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+//	public Auction getAuction() {
+//		return auction;
+//	}
+//	public void setAuction(Auction auction) {
+//		this.auction = auction;
+//	}
 	public String getLabel() {
 		return label;
 	}
@@ -128,6 +164,15 @@ public class Address {
 		this.lat = 0.0;
 		this.lng = 0.0;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Address [id=" + id + ", label=" + label + ", countryCode=" + countryCode
+				+ ", countryName=" + countryName + ", stateCode=" + stateCode + ", state=" + state + ", countyCode="
+				+ countyCode + ", county=" + county + ", city=" + city + ", district=" + district + ", street=" + street
+				+ ", postalCode=" + postalCode + ", houseNumber=" + houseNumber + ", localNumber=" + localNumber
+				+ ", lat=" + lat + ", lng=" + lng + "]";
 	}
 
 }

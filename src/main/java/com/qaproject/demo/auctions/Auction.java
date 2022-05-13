@@ -3,6 +3,7 @@ package com.qaproject.demo.auctions;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,8 +11,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.qaproject.demo.address.Address;
 import com.qaproject.demo.clients.Consumer;
 
 @Table(name = "auction")
@@ -22,12 +25,17 @@ public class Auction {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
+	//check if I can move it to Client class
 	@ManyToOne(targetEntity = Consumer.class)
 	@JoinColumn(name = "f_key_consumer_id")
 	private Consumer whoCreated;
 	
 	@OneToMany(mappedBy = "auction")
 	private List<Bid> bids; 
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "auction_address")
+	private Address address;
 	
 	private String auctionStart;
 	private String title;
@@ -37,7 +45,6 @@ public class Auction {
 	private int containerNumber;
 	private String startDate;
 	private String endDate;
-	private String address;
 	private String note;
 	
 	public Auction() {
@@ -135,13 +142,13 @@ public class Auction {
 		this.endDate = endDate;
 	}
 
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
+//	public Address getAddress() {
+//		return address;
+//	}
+//
+//	public void setAddress(Address address) {
+//		this.address = address;
+//	}
 
 	public String getNote() {
 		return note;
@@ -153,7 +160,8 @@ public class Auction {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(bids, id, whoCreated);
+		return Objects.hash(auctionStart, bids, containerNumber, containerType, endDate, id, junkType, note, startDate,
+				title, volume, whoCreated);
 	}
 
 	@Override
@@ -165,8 +173,20 @@ public class Auction {
 		if (getClass() != obj.getClass())
 			return false;
 		Auction other = (Auction) obj;
-		return Objects.equals(bids, other.bids) && id == other.id && Objects.equals(whoCreated, other.whoCreated);
+		return Objects.equals(auctionStart, other.auctionStart) && Objects.equals(bids, other.bids)
+				&& containerNumber == other.containerNumber && Objects.equals(containerType, other.containerType)
+				&& Objects.equals(endDate, other.endDate) && id == other.id && Objects.equals(junkType, other.junkType)
+				&& Objects.equals(note, other.note) && Objects.equals(startDate, other.startDate)
+				&& Objects.equals(title, other.title) && volume == other.volume
+				&& Objects.equals(whoCreated, other.whoCreated);
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "Auction [id=" + id + ", whoCreated=" + whoCreated + ", bids=" + bids + ", auctionStart=" + auctionStart
+				+ ", title=" + title + ", junkType=" + junkType + ", volume=" + volume + ", containerType="
+				+ containerType + ", containerNumber=" + containerNumber + ", startDate=" + startDate + ", endDate="
+				+ endDate + ", note=" + note + "]";
+	}
+		
 }

@@ -5,8 +5,10 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.qaproject.demo.address.Address;
 import com.qaproject.demo.auctions.Bid;
 
 @Table(name = "professional")
@@ -17,6 +19,9 @@ public class Professional extends Consumer {
 	
 	@OneToMany(mappedBy = "whoBid", cascade = CascadeType.ALL)
 	private List<Bid> bidList;
+	
+//	@OneToOne(cascade = CascadeType.ALL)
+//	private Address address;
 	
 	public Professional() {
 		super();
