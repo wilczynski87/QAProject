@@ -26,8 +26,8 @@ public class ConsumerService {
 	}
 	
 	public Consumer register(Consumer body) throws ClientAlredyExist {
-		String email = Optional.of(body.getEmail()).orElseThrow(() -> new NoClientFound("Can not find that email"));
-		String password = Optional.of(body.getPassword()).orElseThrow(() -> new NoClientFound("Wrong password"));
+		String email = Optional.of(body.getEmail()).orElseThrow(() -> new NoClientFound("Can not find email"));
+		String password = Optional.of(body.getPassword()).orElseThrow(() -> new NoClientFound("Can not find password"));
 		
 		if(Optional.ofNullable(this.cr.findConsumerByEmailAndPassword(email, password)).isPresent()) {
 			throw new ClientAlredyExist("Client already exists");
@@ -57,7 +57,8 @@ public class ConsumerService {
 		} else return false;
 	}
 	
-	public Consumer change(Consumer body, String email, String password) {
+	public Consumer change(Consumer body, String email, String password) throws ClientAlredyExist {
+		//check if client exist
 		Consumer found = Optional.of(this.cr.findConsumerByEmailAndPassword(email, password))
 				.orElseThrow(() -> new NoClientFound("No such Client")) ;
 		found.setAddress(body.getAddress());
@@ -66,6 +67,9 @@ public class ConsumerService {
 		found.setFullName(body.getFullName());
 		found.setPassword(body.getPassword());
 		found.setPhone(body.getPhone());
-		return Optional.of(this.cr.save(found)).orElseThrow(() -> new NoClientFound("No such Client"));
+		//check if new client already exist
+		if(Optional.ofNullable(this.cr.findConsumerByEmailAndPassword(found.getEmail(), found.getPassword())).isPresent()) {
+			throw new ClientAlredyExist("Client with this details already exist");
+		} else return Optional.of(this.cr.save(found)).orElseThrow(() -> new NoClientFound("No such Client"));
 	}
 }

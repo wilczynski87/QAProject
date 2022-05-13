@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import com.qaproject.demo.clients.Professional;
+import com.qaproject.demo.exceptions.ClientAlredyExist;
 import com.qaproject.demo.repositories.ProfessionalRepo;
 
 @SpringBootTest
@@ -84,7 +85,7 @@ public class ServiceTestProfessional {
 //	}
 	
 	@Test
-	public void change() {
+	public void change() throws ClientAlredyExist {
 		//Given
 		String profId = UUID.randomUUID().toString();
 		Professional consumerToChange = new Professional(profId);

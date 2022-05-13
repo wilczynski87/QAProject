@@ -44,7 +44,7 @@ public class ClientController {
 		return new ResponseEntity<Boolean> (this.conSer.delete(email, password), HttpStatus.GONE);
 	}
 	@PutMapping("/consumerChange/{email}/{password}")
-	public ResponseEntity<Consumer> changeConsumer(@RequestBody Consumer body, @PathVariable("email") String email, @PathVariable("password") String password) {
+	public ResponseEntity<Consumer> changeConsumer(@RequestBody Consumer body, @PathVariable("email") String email, @PathVariable("password") String password) throws ClientAlredyExist {
 		return new ResponseEntity<Consumer> (this.conSer.change(body, email, password), HttpStatus.ACCEPTED);
 	}
 }

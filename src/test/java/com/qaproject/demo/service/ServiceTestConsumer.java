@@ -90,7 +90,7 @@ public class ServiceTestConsumer {
 	}
 	
 	@Test
-	public void change() {
+	public void change() throws ClientAlredyExist {
 		//Given
 		String consId = UUID.randomUUID().toString();
 		Consumer consumerToChange = new Consumer(consId);

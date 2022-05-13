@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.qaproject.demo.clients.Professional;
+import com.qaproject.demo.exceptions.ClientAlredyExist;
 import com.qaproject.demo.service.ProfessionalService;
 
 @CrossOrigin
@@ -44,7 +45,7 @@ public class ProfessionalController {
 	}
 	
 	@PutMapping("/professionalChange/{email}/{password}")
-	public ResponseEntity<Professional> changeConsumer(@RequestBody Professional body, @PathVariable("email") String email, @PathVariable("password") String password) {
+	public ResponseEntity<Professional> changeConsumer(@RequestBody Professional body, @PathVariable("email") String email, @PathVariable("password") String password) throws ClientAlredyExist {
 		return new ResponseEntity<Professional> (this.ps.change(body, email, password), HttpStatus.ACCEPTED);
 	}
 	
