@@ -5,7 +5,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.qaproject.demo.clients.Client;
 import com.qaproject.demo.clients.Professional;
 import com.qaproject.demo.exceptions.ClientAlredyExist;
 import com.qaproject.demo.exceptions.NoClientFound;

@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.qaproject.demo.auctions.Auction;
 import com.qaproject.demo.clients.Consumer;
 
@@ -16,28 +17,30 @@ public class Address {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@JsonIgnore
 	private int id;
 	
 	@OneToOne(mappedBy = "address")
+	@JsonIgnore
 	private Consumer client;
 	
 	@OneToOne(mappedBy = "address")
+	@JsonIgnore
 	private Auction auction;
 	
 	private String label; //= "Invalidenstraße 117, 10115 Berlin, Deutschland"
 	
-    private String countryCode; //DEU
-    private String countryName; //Deutschland
-    private String stateCode; //BE",
+    private String country_code; //DEU
+    private String country_name; //Deutschland
+    private String state_code; //BE",
     private String state; //Berlin",
-    private String countyCode; //B",
+    private String county_code; //B",
     private String county; //Berlin",
     private String city; //Berlin",
     private String district; //Mitte",
     private String street; //Invalidenstraße",
-    private String postalCode; //10115",
-    private String houseNumber; //117"
-    private String localNumber;
+    private String postal_code; //10115",
+    private String house_number; //117"
 
 	private double lat;
 	private double lng;
@@ -50,129 +53,158 @@ public class Address {
 	}
 	
 	Address(String houseNumber, String street, String postalCode, String city) {
-		this.houseNumber = houseNumber;
+		this.house_number = houseNumber;
 		this.street = street;
-		this.postalCode = postalCode;
+		this.postal_code = postalCode;
 		this.city = city;
 		this.label = street + " " + houseNumber + ", " + postalCode + " " + city;
 	}
-	
+
 	public int getId() {
 		return id;
 	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
-//	public Auction getAuction() {
-//		return auction;
-//	}
-//	public void setAuction(Auction auction) {
-//		this.auction = auction;
-//	}
+
+	public Consumer getClient() {
+		return client;
+	}
+
+	public void setClient(Consumer client) {
+		this.client = client;
+	}
+
+	public Auction getAuction() {
+		return auction;
+	}
+
+	public void setAuction(Auction auction) {
+		this.auction = auction;
+	}
+
 	public String getLabel() {
 		return label;
 	}
+
 	public void setLabel(String label) {
 		this.label = label;
 	}
-	public String getCountryCode() {
-		return countryCode;
+
+	public String getCountry_code() {
+		return country_code;
 	}
-	public void setCountryCode(String countryCode) {
-		this.countryCode = countryCode;
+
+	public void setCountry_code(String country_code) {
+		this.country_code = country_code;
 	}
-	public String getCountryName() {
-		return countryName;
+
+	public String getCountry_name() {
+		return country_name;
 	}
-	public void setCountryName(String countryName) {
-		this.countryName = countryName;
+
+	public void setCountry_name(String country_name) {
+		this.country_name = country_name;
 	}
-	public String getStateCode() {
-		return stateCode;
+
+	public String getState_code() {
+		return state_code;
 	}
-	public void setStateCode(String stateCode) {
-		this.stateCode = stateCode;
+
+	public void setState_code(String state_code) {
+		this.state_code = state_code;
 	}
+
 	public String getState() {
 		return state;
 	}
+
 	public void setState(String state) {
 		this.state = state;
 	}
-	public String getCountyCode() {
-		return countyCode;
+
+	public String getCounty_code() {
+		return county_code;
 	}
-	public void setCountyCode(String countyCode) {
-		this.countyCode = countyCode;
+
+	public void setCounty_code(String county_code) {
+		this.county_code = county_code;
 	}
+
 	public String getCounty() {
 		return county;
 	}
+
 	public void setCounty(String county) {
 		this.county = county;
 	}
+
 	public String getCity() {
 		return city;
 	}
+
 	public void setCity(String city) {
 		this.city = city;
 	}
+
 	public String getDistrict() {
 		return district;
 	}
+
 	public void setDistrict(String district) {
 		this.district = district;
 	}
+
 	public String getStreet() {
 		return street;
 	}
+
 	public void setStreet(String street) {
 		this.street = street;
 	}
-	public String getPostalCode() {
-		return postalCode;
+
+	public String getPostal_code() {
+		return postal_code;
 	}
-	public void setPostalCode(String postalCode) {
-		this.postalCode = postalCode;
+
+	public void setPostal_code(String postal_code) {
+		this.postal_code = postal_code;
 	}
-	public String getHouseNumber() {
-		return houseNumber;
+
+	public String getHouse_number() {
+		return house_number;
 	}
-	public void setHouseNumber(String houseNumber) {
-		this.houseNumber = houseNumber;
+
+	public void setHouse_number(String house_number) {
+		this.house_number = house_number;
 	}
-	public String getLocalNumber() {
-		return localNumber;
-	}
-	public void setLocalNumber(String localNumber) {
-		this.localNumber = localNumber;
-	}
+
 	public double getLat() {
 		return lat;
 	}
+
 	public void setLat(double lat) {
 		this.lat = lat;
 	}
+
 	public double getLng() {
 		return lng;
 	}
+
 	public void setLng(double lng) {
 		this.lng = lng;
-	}
-	
-	public boolean setLatLng(String label) {
-		this.lat = 0.0;
-		this.lng = 0.0;
-		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Address [id=" + id + ", label=" + label + ", countryCode=" + countryCode
-				+ ", countryName=" + countryName + ", stateCode=" + stateCode + ", state=" + state + ", countyCode="
-				+ countyCode + ", county=" + county + ", city=" + city + ", district=" + district + ", street=" + street
-				+ ", postalCode=" + postalCode + ", houseNumber=" + houseNumber + ", localNumber=" + localNumber
-				+ ", lat=" + lat + ", lng=" + lng + "]";
+		return "Address [id=" + id + ", client=" + client + ", auction=" + auction + ", label=" + label
+				+ ", country_code=" + country_code + ", country_name=" + country_name + ", state_code=" + state_code
+				+ ", state=" + state + ", county_code=" + county_code + ", county=" + county + ", city=" + city
+				+ ", district=" + district + ", street=" + street + ", postal_code=" + postal_code + ", house_number="
+				+ house_number + ", lat=" + lat + ", lng=" + lng + "]";
 	}
-
+	
+	
+	
 }
