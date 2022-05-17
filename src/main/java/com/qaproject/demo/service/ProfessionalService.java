@@ -1,10 +1,13 @@
 package com.qaproject.demo.service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.qaproject.demo.address.ProfPos;
 import com.qaproject.demo.clients.Professional;
 import com.qaproject.demo.exceptions.ClientAlredyExist;
 import com.qaproject.demo.exceptions.NoClientFound;
@@ -62,6 +65,20 @@ public class ProfessionalService {
 			this.pr.delete(prof);
 			return Optional.ofNullable(prof).isEmpty();
 		} else return false;
+	}
+	
+	public List<ProfPos> getProfessionals(double distance, double lat, double lng) {
+//		System.out.println("Service started");
+		
+		return this.pr.findAll()
+			.stream()
+			.map(ProfPos::new)
+			.map(pro -> { 
+					pro.calcDis(lat, lng);
+					return pro;
+				})
+			.filter(pro -> pro.getDistance() <= distance)
+			.collect(Collectors.toList());
 	}
 	
 }

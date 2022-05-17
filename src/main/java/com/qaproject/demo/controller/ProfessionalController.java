@@ -1,5 +1,7 @@
 package com.qaproject.demo.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.qaproject.demo.address.ProfPos;
 import com.qaproject.demo.clients.Professional;
 import com.qaproject.demo.exceptions.ClientAlredyExist;
 import com.qaproject.demo.service.ProfessionalService;
@@ -47,6 +50,12 @@ public class ProfessionalController {
 	@PutMapping("/professionalChange/{email}/{password}")
 	public ResponseEntity<Professional> changeConsumer(@RequestBody Professional body, @PathVariable("email") String email, @PathVariable("password") String password) throws ClientAlredyExist {
 		return new ResponseEntity<Professional> (this.ps.change(body, email, password), HttpStatus.ACCEPTED);
+	}
+	
+	@GetMapping("/profPos/{distance}/{lat}/{lng}")
+	public ResponseEntity<List<ProfPos>> getProfessionals(@PathVariable("distance") double distance, @PathVariable("lat") double lat, @PathVariable("lng") double lng) {
+//		System.out.println("Recived a query");
+		return new ResponseEntity<List<ProfPos>> (this.ps.getProfessionals(distance, lat, lng), HttpStatus.OK);
 	}
 	
 }
