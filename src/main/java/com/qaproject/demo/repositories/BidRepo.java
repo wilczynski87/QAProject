@@ -23,5 +23,7 @@ public interface BidRepo extends JpaRepository<Bid, Integer> {
 	
 	@Query(value = "SELECT auction_id FROM bid WHERE f_key_professional_id = ?1 GROUP BY auction_id", nativeQuery = true)
 	public List<String> findAllAuctionsWithMyBid(String myId);
+	
+	public List<Bid> findAllBidByProfFirm(String myId);
 
 }
