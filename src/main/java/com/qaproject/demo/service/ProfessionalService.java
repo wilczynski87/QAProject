@@ -44,6 +44,7 @@ public class ProfessionalService {
 			throw new ClientAlredyExist("I can not find client...");
 		} else {
 			Professional found = oldClient.get();
+			//if new email is occupied than throw error
 			if(newClient.isPresent() && !found.getEmail().equals(body.getEmail())){
 				throw new ClientAlredyExist("Client already exist");
 			} else {
@@ -67,6 +68,7 @@ public class ProfessionalService {
 		} else return false;
 	}
 	
+	//needed to get professionals on map with address details
 	public List<ProfPos> getProfessionals(double distance, double lat, double lng) {
 //		System.out.println("Service started");
 		

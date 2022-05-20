@@ -8,15 +8,19 @@ public class ProfPos {
 	
 	private String name;
 	private String email;
+	private String tel;
+	private String address;
 	private double lat;
 	private double lng;
 	private double distance; //distance from user
 	private final double latMiles = 68.703;
 	
-	public ProfPos(String name, String email, double lat, double lng) {
+	public ProfPos(String name, String email, String tel, String address, double lat, double lng) {
 		super();
 		this.name = name;
 		this.email = email;
+		this.tel = tel;
+		this.address = address;
 		this.lat = lat;
 		this.lng = lng;
 		this.distance = 0;
@@ -26,6 +30,8 @@ public class ProfPos {
 		super();
 		this.name = Optional.ofNullable(prof.getFirm()).orElse(prof.getFullName());
 		this.email = prof.getEmail();
+		this.tel = prof.getPhone();
+		this.address = prof.getAddress().getLabel();
 		this.lat = prof.getAddress().getLat();
 		this.lng = prof.getAddress().getLng();
 		this.distance = 0;
@@ -68,6 +74,22 @@ public class ProfPos {
 	}
 	public void setDistance(double distance) {
 		this.distance = distance;
+	}
+
+	public String getTel() {
+		return tel;
+	}
+
+	public void setTel(String tel) {
+		this.tel = tel;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 	
 }

@@ -18,4 +18,6 @@ public interface ConsumerRepo extends JpaRepository<Consumer, Integer> {
 
 	public Consumer getConsumerById(String customerId);
 	
+	public Consumer findConsumerByEmail(String email);
+	
 }
