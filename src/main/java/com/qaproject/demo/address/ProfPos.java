@@ -45,6 +45,19 @@ public class ProfPos {
 		return this.distance;
 	}
 	
+	public static double getDistanceFromAuction(Address prof, Address auc) {
+		double profLat = prof.getLat();
+		double profLng = prof.getLng();
+		double aucLat = auc.getLat();
+		double aucLng = auc.getLng();
+		
+		double latDis = Math.abs(Math.abs(aucLat) - Math.abs(profLat));
+		double lngDis = Math.abs(Math.abs(aucLng) - Math.abs(profLng));
+		
+		double distance = Math.sqrt(Math.pow(latDis, 2) + Math.pow(lngDis, 2)) * 68.703;
+		return distance;
+	}
+	
 	public String getName() {
 		return name;
 	}

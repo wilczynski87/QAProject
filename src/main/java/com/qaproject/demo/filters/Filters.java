@@ -5,24 +5,26 @@ import java.util.Objects;
 public class Filters {
 	
 	private String junkType;
-	private int distance;
+	private double distanceMax;
 	private String startDate;
 	private String endDate;
-	private String auctionStarted;
-	private int volume;
+	private String auctionStartedAfter;
+	private int volumeMax = Integer.MAX_VALUE;
+	private int volumeMin = Integer.MIN_VALUE;
 	private float lowestBid;
 	
-	public Filters() {};
-	
-	public Filters(String junkType, int distance, String startDate, String endDate, String auctionStarted, int volume,
-			float lowestBid) {
+	public Filters() {}
+
+	public Filters(String junkType, double distanceMax, String startDate, String endDate, String auctionStartedAfter,
+			int volumeMax, int volumeMin, float lowestBid) {
 		super();
 		this.junkType = junkType;
-		this.distance = distance;
+		this.distanceMax = distanceMax;
 		this.startDate = startDate;
 		this.endDate = endDate;
-		this.auctionStarted = auctionStarted;
-		this.volume = volume;
+		this.auctionStartedAfter = auctionStartedAfter;
+		this.volumeMax = volumeMax;
+		this.volumeMin = volumeMin;
 		this.lowestBid = lowestBid;
 	}
 
@@ -34,12 +36,12 @@ public class Filters {
 		this.junkType = junkType;
 	}
 
-	public int getDistance() {
-		return distance;
+	public double getDistanceMax() {
+		return distanceMax;
 	}
 
-	public void setDistance(int distance) {
-		this.distance = distance;
+	public void setDistanceMax(double distanceMax) {
+		this.distanceMax = distanceMax;
 	}
 
 	public String getStartDate() {
@@ -58,20 +60,28 @@ public class Filters {
 		this.endDate = endDate;
 	}
 
-	public String getAuctionStarted() {
-		return auctionStarted;
+	public String getAuctionStartedAfter() {
+		return auctionStartedAfter;
 	}
 
-	public void setAuctionStarted(String auctionStarted) {
-		this.auctionStarted = auctionStarted;
+	public void setAuctionStartedAfter(String auctionStartedAfter) {
+		this.auctionStartedAfter = auctionStartedAfter;
 	}
 
-	public int getVolume() {
-		return volume;
+	public int getVolumeMax() {
+		return volumeMax;
 	}
 
-	public void setVolume(int volume) {
-		this.volume = volume;
+	public void setVolumeMax(int volumeMax) {
+		this.volumeMax = volumeMax;
+	}
+
+	public int getVolumeMin() {
+		return volumeMin;
+	}
+
+	public void setVolumeMin(int volumeMin) {
+		this.volumeMin = volumeMin;
 	}
 
 	public float getLowestBid() {
@@ -80,33 +90,7 @@ public class Filters {
 
 	public void setLowestBid(float lowestBid) {
 		this.lowestBid = lowestBid;
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(auctionStarted, distance, endDate, junkType, lowestBid, startDate, volume);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Filters other = (Filters) obj;
-		return Objects.equals(auctionStarted, other.auctionStarted) && distance == other.distance
-				&& Objects.equals(endDate, other.endDate) && Objects.equals(junkType, other.junkType)
-				&& Float.floatToIntBits(lowestBid) == Float.floatToIntBits(other.lowestBid)
-				&& Objects.equals(startDate, other.startDate) && volume == other.volume;
-	}
-
-	@Override
-	public String toString() {
-		return "Filters [junkType=" + junkType + ", distance=" + distance + ", startDate=" + startDate + ", endDate="
-				+ endDate + ", auctionStarted=" + auctionStarted + ", volume=" + volume + ", lowestBid=" + lowestBid
-				+ "]";
 	};
+	
 	
 }
