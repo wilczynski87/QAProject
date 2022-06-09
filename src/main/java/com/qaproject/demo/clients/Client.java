@@ -2,9 +2,14 @@ package com.qaproject.demo.clients;
 
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.OneToOne;
+
+import com.qaproject.demo.address.Address;
 
 @MappedSuperclass
 public abstract class Client {
@@ -12,6 +17,10 @@ public abstract class Client {
 		@Id
 		@Column(name = "id", nullable = false) 
 		private String id = UUID.randomUUID().toString();
+		
+		@OneToOne(cascade = CascadeType.ALL)
+		@JoinColumn(name = "user_address")
+		private Address address;
 		
 		private String firm;
 		private String fullName;
@@ -51,12 +60,6 @@ public abstract class Client {
 		public void setFullName(String fullName) {
 			this.fullName = fullName;
 		}
-//		public Address getAddress() {
-//			return address;
-//		}
-//		public void setAddress(Address address) {
-//			this.address = address;
-//		}
 		public String getEmail() {
 			return email;
 		}
@@ -74,6 +77,12 @@ public abstract class Client {
 		}
 		public void setPassword(String password) {
 			this.password = password;
+		}
+		public Address getAddress() {
+			return address;
+		}
+		public void setAddress(Address address) {
+			this.address = address;
 		}
 		
 }

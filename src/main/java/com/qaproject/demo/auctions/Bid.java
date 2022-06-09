@@ -49,6 +49,19 @@ public class Bid {
 		this.date = "01/01/2022";
 	}
 
+	public Bid(int id, Float price, String date, String profFirm, int howManyDays, String startDate, String endDate,
+			Professional whoBid) {
+		super();
+		this.id = id;
+		this.price = price;
+		this.date = date;
+		this.profFirm = profFirm;
+		this.howManyDays = howManyDays;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.whoBid = whoBid;
+	}
+
 	public String getDate() {
 		return date;
 	}

@@ -9,17 +9,18 @@ import javax.persistence.Table;
 
 import com.qaproject.demo.auctions.Bid;
 
+import lombok.Data;
+
 @Table(name = "professional")
 @Entity
+@Data
 public class Professional extends Consumer {
 	
+	@SuppressWarnings("unused") //because lombook doing the job
 	private String licenseNo;
 	
 	@OneToMany(mappedBy = "whoBid", cascade = CascadeType.ALL)
 	private List<Bid> bidList;
-	
-//	@OneToOne(cascade = CascadeType.ALL)
-//	private Address address;
 	
 	public Professional() {
 		super();
@@ -30,12 +31,12 @@ public class Professional extends Consumer {
 		super(id);
 	}
 
-	public String getLicenseNo() {
-		return licenseNo;
-	}
-
-	public void setLicenseNo(String licenseNo) {
-		this.licenseNo = licenseNo;
-	}
+//	public String getLicenseNo() {
+//		return licenseNo;
+//	}
+//
+//	public void setLicenseNo(String licenseNo) {
+//		this.licenseNo = licenseNo;
+//	}
 
 }

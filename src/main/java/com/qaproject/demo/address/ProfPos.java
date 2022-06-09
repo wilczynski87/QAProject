@@ -4,6 +4,9 @@ import java.util.Optional;
 
 import com.qaproject.demo.clients.Professional;
 
+import lombok.Data;
+
+@Data
 public class ProfPos {
 	
 	private String name;
@@ -58,51 +61,47 @@ public class ProfPos {
 		return distance;
 	}
 	
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	public double getLat() {
-		return lat;
-	}
-	public void setLat(double lat) {
-		this.lat = lat;
-	}
-	public double getLng() {
-		return lng;
-	}
-	public void setLng(double lng) {
-		this.lng = lng;
-	}
+//	public String getName() {
+//		return name;
+//	}
+//	public void setName(String name) {
+//		this.name = name;
+//	}
+//	public String getEmail() {
+//		return email;
+//	}
+//	public void setEmail(String email) {
+//		this.email = email;
+//	}
+//	public double getLat() {
+//		return lat;
+//	}
+//	public void setLat(double lat) {
+//		this.lat = lat;
+//	}
+//	public double getLng() {
+//		return lng;
+//	}
+//	public void setLng(double lng) {
+//		this.lng = lng;
+//	}
+//	public String getTel() {
+//		return tel;
+//	}
+//	public void setTel(String tel) {
+//		this.tel = tel;
+//	}
+//	public String getAddress() {
+//		return address;
+//	}
+//	public void setAddress(String address) {
+//		this.address = address;
+//	}
 	public double getDistance() {
 		return distance;
 	}
 	public void setDistance(double distance) {
 		this.distance = distance;
-	}
-
-	public String getTel() {
-		return tel;
-	}
-
-	public void setTel(String tel) {
-		this.tel = tel;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
 	}
 	
 }

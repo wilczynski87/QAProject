@@ -4,6 +4,7 @@ import java.util.Objects;
 
 public class Filters {
 	
+	private String title;
 	private String junkType;
 	private double distanceMax;
 	private String startDate;
@@ -12,11 +13,12 @@ public class Filters {
 	private int volumeMax = Integer.MAX_VALUE;
 	private int volumeMin = Integer.MIN_VALUE;
 	private float lowestBid;
+	private boolean expired;
 	
 	public Filters() {}
 
 	public Filters(String junkType, double distanceMax, String startDate, String endDate, String auctionStartedAfter,
-			int volumeMax, int volumeMin, float lowestBid) {
+			int volumeMax, int volumeMin, float lowestBid, boolean expired) {
 		super();
 		this.junkType = junkType;
 		this.distanceMax = distanceMax;
@@ -26,6 +28,7 @@ public class Filters {
 		this.volumeMax = volumeMax;
 		this.volumeMin = volumeMin;
 		this.lowestBid = lowestBid;
+		this.setExpired(expired);
 	}
 
 	public String getJunkType() {
@@ -90,6 +93,22 @@ public class Filters {
 
 	public void setLowestBid(float lowestBid) {
 		this.lowestBid = lowestBid;
+	}
+
+	public boolean isExpired() {
+		return expired;
+	}
+
+	public void setExpired(boolean expired) {
+		this.expired = expired;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	};
 	
 	

@@ -44,7 +44,7 @@ public class ProfessionalService {
 		//checking for new client
 		Optional<Professional> newClient = Optional.ofNullable(this.pr.findProfessionalByEmailAndPassword(body.getEmail(), body.getPassword()));
 		
-		if(!oldClient.isPresent()) {
+		if(oldClient.isEmpty()) {
 			throw new ClientAlredyExist("I can not find client...");
 		} else {
 			Professional found = oldClient.get();
@@ -55,15 +55,15 @@ public class ProfessionalService {
 				
 				//Checks if company name has chanched
 				if(!body.getFirm().equals(found.getFirm())) {
-					System.out.println("Name of Company has changed! from: " + found.getFirm() + " onto " + body.getFirm());
+//					System.out.println("Name of Company has changed! from: " + found.getFirm() + " onto " + body.getFirm());
 					List<Bid> bidList = this.br.findAllBidByProfFirm(found.getFirm());
-					System.out.println("I have retrive the Bid List " + bidList.size());
+//					System.out.println("I have retrive the Bid List " + bidList.size());
 					
 					//If company name has chacged -> rename cells in column "ProfFirm"
 					for(Bid bid : bidList) {
-						System.out.println("I am changing the bid: " + bid.getProfFirm());
+//						System.out.println("I am changing the bid: " + bid.getProfFirm());
 						bid.setProfFirm(body.getFirm());
-						System.out.print(" onto " + bid.getProfFirm());
+//						System.out.print(" onto " + bid.getProfFirm());
 						this.br.save(bid);
 					}
 				}
@@ -85,7 +85,8 @@ public class ProfessionalService {
 				.orElseThrow(() -> new NoClientFound("Can not find this professional"));
 		if(Optional.ofNullable(prof).isPresent()) {
 			this.pr.delete(prof);
-			return Optional.ofNullable(prof).isEmpty();
+			Optional<Professional> afterDelete = Optional.ofNullable(this.pr.findProfessionalByEmailAndPassword(email, password));
+			return afterDelete.isEmpty();
 		} else return false;
 	}
 	

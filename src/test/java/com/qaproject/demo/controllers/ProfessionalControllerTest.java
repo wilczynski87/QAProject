@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
@@ -18,9 +19,14 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.RequestBuilder;
+import org.springframework.test.web.servlet.ResultMatcher;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.qaproject.demo.address.ProfPos;
 import com.qaproject.demo.clients.Professional;
+import com.qaproject.demo.repositories.ProfessionalRepo;
+import com.qaproject.demo.service.ProfessionalService;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -34,61 +40,89 @@ public class ProfessionalControllerTest {
 	@Autowired
 	private ObjectMapper mapper;
 	
-	//need to do different test! this do not have any sense!
-//	@Test
-//	public void registerClient() throws Exception {
-//		//Given
-//		String profId = UUID.randomUUID().toString();
-//		Professional profToSave = new Professional(profId);
-//		Professional profSaved = new Professional(profId);
-//		//When and Then
-//		this.mvc
-//            .perform(post("/professionalSignIn")
-//                .accept(MediaType.APPLICATION_JSON)
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content(this.mapper.writeValueAsString(profToSave)))
-//            .andExpect(status().isCreated())
-//            .andExpect(content().json(this.mapper.writeValueAsString(profSaved)));
-//    }
-//	
-//	@Test
-//	public void loginClient2() throws Exception {
-//		//Given
-//		Professional consumer = new Professional();
-//		consumer.setEmail("email@email.com");
-//		consumer.setPassword("password");
-//		//When and Than
-//		this.mvc
-//			.perform(get("/professionalLogin/email@email.com/password"))
-//			.andExpect(status().isOk())
-//			.andExpect(content().json(this.mapper.writeValueAsString(consumer)));
-//	}
-//	
-//	@Test
-//	public void deleteClient() throws Exception {
-//		this.mvc
-//			.perform(delete("/professionalDelete/4"))
-//			.andExpect(status().isGone());
-//	}
-//	
-//	@Test
-//	public void editClient() throws Exception {
-//		//Given
-//		String profId = UUID.randomUUID().toString();
-//		Professional consumerToChange = new Professional(profId);
-//		consumerToChange.setEmail("email@email.com");
-//		consumerToChange.setPassword("password");
-//		Professional consumerChanged = new Professional(profId);
-//		consumerChanged.setEmail("SSSS@SSSS.com");
-//		consumerChanged.setPassword("SSSSSSSS");
-//		//When and Then
-//		this.mvc
-//            .perform(put("/professionalChange/email@email.com/password")
-//                .accept(MediaType.APPLICATION_JSON)
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content(this.mapper.writeValueAsString(consumerChanged)))
-//            .andExpect(status().isAccepted())
-//            .andExpect(content().json(this.mapper.writeValueAsString(consumerChanged)));
-//		
-//	}
+	@Autowired
+	private ProfessionalRepo pr;
+	
+	@Autowired
+	private ProfessionalService ps;
+	
+	@Test
+	public void registerClient() throws Exception {
+		//Given
+		String profId = UUID.randomUUID().toString();
+		Professional profToSave = new Professional(profId);
+		Professional profSaved = new Professional(profId);
+		//When and Then
+		this.mvc
+            .perform(post("/professionalSignIn")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(this.mapper.writeValueAsString(profToSave)))
+            .andExpect(status().isCreated())
+            .andExpect(content().json(this.mapper.writeValueAsString(profSaved)));
+    }
+	
+	@Test
+	public void loginClient() throws Exception {
+		//Given
+		String email = "email@email.com";
+		String password = "password";
+		Professional professional = this.pr.findProfessionalByEmailAndPassword(email, password);
+		//When and Than
+		this.mvc
+			.perform(get("/professionalLogin/{email}/{password}", email, password))
+			.andExpect(status().isOk())
+			.andExpect(content().json(this.mapper.writeValueAsString(professional)));
+	}
+	
+	@Test
+	public void deleteClient() throws Exception {
+		// Given
+		String email = "email@email.com";
+		String password = "password";
+		
+		// When and Then
+		this.mvc
+			.perform(delete("/professionalDelete/{email}/{password}", email, password))
+			.andExpect(status().isGone());
+	}
+	
+	@Test
+	public void editClient() throws Exception {
+		//Given
+		String email = "Third@email.com";
+		String password = "password3";
+		Professional professionalFound = this.pr.findProfessionalByEmailAndPassword(email, password);
+		professionalFound.setEmail("SSSS@SSSS.com");
+		professionalFound.setPassword("SSSSSSSS");
+		//When and Then
+		this.mvc
+            .perform(put("/professionalChange/{email}/{password}", email, password)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(this.mapper.writeValueAsString(professionalFound)))
+            .andExpect(status().isAccepted())
+            .andExpect(content().json(this.mapper.writeValueAsString(professionalFound)));
+	}
+	
+	@Test
+	public void getProfessionals_returnListOfProf_filteredByDistance() throws Exception {
+		//Given
+		int distance = 100;
+		double lat = 1.0000;
+		double lng = 1.0000;
+		List<ProfPos> list = this.ps.getProfessionals(distance, lat, lng);
+		
+		// When
+		RequestBuilder request = get("/profPos/{distance}/{lat}/{lng}", distance, lat, lng);
+		ResultMatcher statusResult = status().isOk();
+		ResultMatcher contentResult = content().json(this.mapper.writeValueAsString(list));
+		
+		//Then
+			this.mvc
+				.perform(request)
+				.andExpect(statusResult)
+				.andExpect(contentResult)
+				;
+	}
 }

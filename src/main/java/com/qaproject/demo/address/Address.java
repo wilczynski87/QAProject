@@ -45,14 +45,14 @@ public class Address {
 	private double lat;
 	private double lng;
 	
-	Address() {};
+	public Address() {};
 	
-	Address(double lat, double lng) {
+	public Address(double lat, double lng) {
 		this.lat = lat;
 		this.lng = lng;
 	}
 	
-	Address(String houseNumber, String street, String postalCode, String city) {
+	public Address(String houseNumber, String street, String postalCode, String city) {
 		this.house_number = houseNumber;
 		this.street = street;
 		this.postal_code = postalCode;

@@ -17,8 +17,11 @@ import javax.persistence.Table;
 import com.qaproject.demo.address.Address;
 import com.qaproject.demo.clients.Consumer;
 
+import lombok.Data;
+
 @Table(name = "auction")
 @Entity
+@Data
 public class Auction {
 	
 	@Id
@@ -46,6 +49,7 @@ public class Auction {
 	private String startDate;
 	private String endDate;
 	private String note;
+	private boolean expired = false;
 	
 	public Auction() {
 		super();
@@ -53,6 +57,26 @@ public class Auction {
 	
 	public Auction(Consumer consumer) {
 		this.whoCreated = consumer;
+	}
+
+	public Auction(int id, Consumer whoCreated, List<Bid> bids, Address address, String auctionStart, String title,
+			String junkType, int volume, String containerType, int containerNumber, String startDate, String endDate,
+			String note, boolean expired) {
+		super();
+		this.id = id;
+		this.whoCreated = whoCreated;
+		this.bids = bids;
+		this.address = address;
+		this.auctionStart = auctionStart;
+		this.title = title;
+		this.junkType = junkType;
+		this.volume = volume;
+		this.containerType = containerType;
+		this.containerNumber = containerNumber;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.note = note;
+		this.expired = expired;
 	}
 
 	public String getWhoCreated() {
@@ -188,5 +212,21 @@ public class Auction {
 				+ containerType + ", containerNumber=" + containerNumber + ", startDate=" + startDate + ", endDate="
 				+ endDate + ", note=" + note + "]";
 	}
+
+	public boolean isExpired() {
+		return expired;
+	}
+
+	public void setExpired(boolean expired) {
+		this.expired = expired;
+	}
+
+//	public Products[] getJunk() {
+//		return junk;
+//	}
+//
+//	public void setJunk(Products junk[]) {
+//		this.junk = junk;
+//	}
 		
 }

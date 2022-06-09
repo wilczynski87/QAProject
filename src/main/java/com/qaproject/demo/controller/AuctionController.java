@@ -39,13 +39,18 @@ public class AuctionController {
 	}
 	
 	@GetMapping("/getAuctionsByUserId/{id}")
-	public ResponseEntity<List<Auction>> getAuctions(@PathVariable String id) {
-		return new ResponseEntity<List<Auction>> (this.as.getAuctions(id), HttpStatus.ACCEPTED);
+	public ResponseEntity<List<Auction>> getAuctions(@PathVariable("id") String id) {
+		return new ResponseEntity<List<Auction>> (this.as.getAuctions(id), HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/deleteAuction/{id}")
 	public ResponseEntity<Boolean> deleteAuction(@PathVariable Integer id) {
 		return new ResponseEntity<Boolean> (this.as.deleteAuction(id), HttpStatus.OK);
+	}
+	
+	@DeleteMapping("/expireAuction/{id}")
+	public ResponseEntity<Auction> expireAuction(@PathVariable Integer id) {
+		return new ResponseEntity<Auction> (this.as.expireAuction(id), HttpStatus.OK);
 	}
 	
 	@PostMapping("/getAuctionByFilers/{professionalId}")

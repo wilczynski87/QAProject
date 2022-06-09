@@ -1,6 +1,10 @@
 package com.qaproject.demo.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.UUID;
 
@@ -12,6 +16,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import com.qaproject.demo.clients.Consumer;
 import com.qaproject.demo.exceptions.ClientAlredyExist;
+import com.qaproject.demo.exceptions.NoClientFound;
 import com.qaproject.demo.repositories.ConsumerRepo;
 
 @SpringBootTest
@@ -40,6 +45,25 @@ public class ServiceTestConsumer {
 	}
 	
 	@Test
+	public void loginWhenClientNotFoundReturnException() {
+		//Arange
+		String email = "my@email.com";
+		String password = "Password...";
+		when(this.cr.findConsumerByEmailAndPassword(email, password)).thenReturn(null);
+		
+		//Act
+		Exception exception = assertThrows(NoClientFound.class, () -> {
+			this.cs.login(email, password);
+	    });
+		
+		//Assert
+	    String expectedMessage = "No such Client";
+	    String actualMessage = exception.getMessage();
+
+	    assertTrue(actualMessage.contains(expectedMessage));
+	}
+	
+	@Test
 	public void register() throws ClientAlredyExist {
 		//Given
 		String consId = UUID.randomUUID().toString();
@@ -56,6 +80,45 @@ public class ServiceTestConsumer {
 		//Verify
 		Mockito.verify(this.cr, Mockito.times(1)).save(Mockito.any(Consumer.class));
 	}
+	
+	@Test
+	public void registerWhenClientExistReturnException() throws ClientAlredyExist {
+		// Arrange
+		String consId = UUID.randomUUID().toString();
+		Consumer consumer = new Consumer(consId);
+		String email = "email2@email.com";
+		String password = "Password...";
+		consumer.setEmail("email2@email.com");
+		consumer.setPassword("Password...");
+//		when(this.cs.register(consumer)).thenThrow(ClientAlredyExist.class);
+		when(this.cr.findConsumerByEmailAndPassword(email, password)).thenReturn(consumer);
+		
+		// Act
+		Exception exception = assertThrows(ClientAlredyExist.class, () -> {
+			this.cs.register(consumer);
+		});
+		
+		// Assert
+		String expectedMessage = "Client already exists";
+		String actualMessage = exception.getMessage();
+		assertTrue(actualMessage.contains(expectedMessage));
+	}
+	
+//	@Test
+//	public void register_bodyDoNotHaveEmail_throwException() throws Exception {
+//		// Arrange
+//		Consumer emptyClient = new Consumer();
+//		
+//		// Act
+//		Exception exception = assertThrows(NoClientFound.class, () -> {
+//			this.cs.register(emptyClient);
+//		});
+//		
+//		// Assert
+//		String expectedMessage = "Can not find email";
+//		String actualMessage = exception.getMessage();
+//		assertTrue(actualMessage.contains(expectedMessage));
+//	}
 	
 	@Test
 	public void delete() {
@@ -88,27 +151,29 @@ public class ServiceTestConsumer {
 		//Verify
 		Mockito.verify(this.cr, Mockito.times(0)).delete(consumer);		
 	}
-	
+
 	@Test
 	public void change() throws ClientAlredyExist {
 		//Given
 		String consId = UUID.randomUUID().toString();
-		Consumer consumerToChange = new Consumer(consId);
-		consumerToChange.setEmail("email@email.com");
-		consumerToChange.setPassword("password");
-		Consumer ConsumerChanged = new Consumer(consId);
-		ConsumerChanged.setEmail("sssss@sssss.com");
-		ConsumerChanged.setPassword("ssssssss");
-		String email = "email@email.com";
-		String password = "password";
+		Consumer found = new Consumer(consId);
+		found.setEmail("email@email.com");
+		found.setPassword("password");
+		Consumer body = new Consumer(consId);
+		body.setEmail("sssss@sssss.com");
+		body.setPassword("ssssssss");
+		String oldEmail = "email@email.com";
+		String oldPassword = "password";
+		
 		//When
-		Mockito.when(this.cr.findConsumerByEmailAndPassword(email, password)).thenReturn(consumerToChange);
-		Mockito.when(this.cr.save(ConsumerChanged)).thenReturn(ConsumerChanged);
+		when(this.cr.findConsumerByEmailAndPassword(oldEmail, oldPassword)).thenReturn(found);
+		when(this.cr.save(found)).thenReturn(body);
+		when(this.cr.findConsumerByEmail(body.getEmail())).thenReturn(null);
 		//Then
-		assertThat(this.cs.change(ConsumerChanged, email, password)).isEqualTo(ConsumerChanged);
+		assertThat(this.cs.change(body, oldEmail, oldPassword)).isEqualTo(body);
 		//Verify
-		Mockito.verify(this.cr, Mockito.times(1)).findConsumerByEmailAndPassword(email, password);
-		Mockito.verify(this.cr, Mockito.times(1)).save(ConsumerChanged);
+		Mockito.verify(this.cr, Mockito.times(1)).findConsumerByEmailAndPassword(oldEmail, oldPassword);
+		Mockito.verify(this.cr, Mockito.times(1)).save(found);
 	}
 		//Given
 	
@@ -117,5 +182,36 @@ public class ServiceTestConsumer {
 		//Then
 			
 		//Verify
+	@Test
+	public void changeClient_throwError_clientEmailAlredyExistInDB() throws ClientAlredyExist {
+		//Given
+		String consId = UUID.randomUUID().toString();
+		Consumer found = new Consumer(consId);
+		found.setEmail("email@email.com");
+		found.setPassword("password");
+		Consumer body = new Consumer(consId);
+		body.setEmail("sssss@sssss.com");
+		body.setPassword("ssssssss");
+		String oldEmail = "email@email.com";
+		String oldPassword = "password";
+		
+		//When
+		Mockito.when(this.cr.findConsumerByEmailAndPassword(oldEmail, oldPassword)).thenReturn(found);
+//		Mockito.when(this.cr.save(found)).thenReturn(body);
+		when(this.cr.findConsumerByEmail(body.getEmail())).thenReturn(body);
+		
+		//Then
+		Exception exception = assertThrows(ClientAlredyExist.class, () -> {
+			this.cs.change(body, oldEmail, oldPassword);
+	    });
+		String expectedMessage = "Client with this details already exist";
+	    String actualMessage = exception.getMessage();
+
+	    assertTrue(actualMessage.contains(expectedMessage));
+			
+		//Verify
+	    verify(this.cr, Mockito.times(1)).findConsumerByEmailAndPassword(oldEmail, oldPassword);
+	    verify(this.cr, Mockito.times(0)).save(found);
+	}
 			
 }

@@ -7,9 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -24,8 +22,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.qaproject.demo.auctions.Auction;
 import com.qaproject.demo.auctions.Bid;
-import com.qaproject.demo.clients.Consumer;
 import com.qaproject.demo.clients.Professional;
+import com.qaproject.demo.repositories.AuctionRepo;
+import com.qaproject.demo.repositories.BidRepo;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -39,20 +38,25 @@ public class BidControllerTest {
 	@Autowired
 	private ObjectMapper mapper;
 	
-	@Disabled("Early Deployment")
+	@Autowired
+	private BidRepo br;
+	
+	@Autowired
+	private AuctionRepo ar;
+	
 	@Test 
 	public void makeBid() throws JsonProcessingException, Exception {
 		//Given
-		String profId = UUID.randomUUID().toString();
-		String consId = UUID.randomUUID().toString();
-		Professional prof = new Professional(profId);
-		Consumer consumer = new Consumer(consId);
-		Auction auction = new Auction(consumer);
+		String profId = "223e4567-e89b-12d3-a456-426614174000";
+		int auctionId = 1;
+		Professional prof = new Professional("223e4567-e89b-12d3-a456-426614174000");
+		Auction auction = new Auction();
+		auction.setId(auctionId);
 		Bid bid = new Bid(100, prof, auction);
 		bid.setId(5);
 		//When and Then
 		this.mvc
-			.perform(post("/makeBid/1/1")
+			.perform(post("/makeBid/{professionalId}/{auctionId}", profId, auctionId)
 				.accept(MediaType.APPLICATION_JSON)
 				.contentType(MediaType.APPLICATION_PROBLEM_JSON)
 				.content(mapper.writeValueAsString(bid)))
@@ -60,22 +64,36 @@ public class BidControllerTest {
 			.andExpect(content().json(mapper.writeValueAsString(bid)));
 	}
 	
-	@Disabled("Too nested")
 	@Test
-	public void getBidsByAuctionId() throws JsonProcessingException, Exception {
+	public void getBids() throws JsonProcessingException, Exception {
 		//Given
-		Bid bid = new Bid();
-		String consId = UUID.randomUUID().toString();
-		Consumer consumer = new Consumer(consId);
-		Auction auction1 = new Auction(consumer);
-		auction1.setId(1);
-		bid.setAuction(auction1);
+		int auctionId = 2;
+		Bid bid2 = this.br.findById(4).get();
 		List<Bid> list = new ArrayList<>();
-		list.add(bid);
+		list.add(bid2);
+		
 		//When and Then
 		this.mvc
-			.perform(get("/getBids/2"))
+			.perform(get("/getBids/{auctionId}", auctionId))
 			.andExpect(status().isAccepted())
 			.andExpect(content().json(mapper.writeValueAsString(list)));
+	}
+	
+	//Problem with lasy initialisation
+	@Test
+	public void getAuctionsWithMyBids() throws JsonProcessingException, Exception {
+		//Given
+		String profId = "223e4567-e89b-12d3-a456-426614174000";
+		int auctionId = 2;
+		List<Auction> list = new ArrayList<>();
+		Auction auction = this.ar.findById(1).get();
+		list.add(auction);
+		
+		// Then
+		this.mvc
+			.perform(get("/getAuctionsWithMyBids/{myId}", profId))
+			.andExpect(status().isOk())
+//			.andExpect(content().json(mapper.writeValueAsString(list)))
+			;
 	}
 }

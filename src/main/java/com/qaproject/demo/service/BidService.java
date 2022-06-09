@@ -64,7 +64,7 @@ public class BidService {
 	public Boolean deleteBid(Integer bidId) {
 		if(this.br.existsById(bidId)) {
 			this.br.deleteById(bidId);
-			return !this.br.existsById(bidId);
+			return this.br.existsById(bidId);
 		} else throw new NoBidFound("Could not found bid with ID " + bidId);
 	}
 }

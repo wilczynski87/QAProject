@@ -44,7 +44,7 @@ public class ProfessionalController {
 	
 	@DeleteMapping("/professionalDelete/{email}/{password}")
 	public ResponseEntity<Boolean> deleteProfessional(@PathVariable("email") String email, @PathVariable("password") String password) {
-		return new ResponseEntity<Boolean> (this.ps.delete(email, password), HttpStatus.OK);
+		return new ResponseEntity<Boolean> (this.ps.delete(email, password), HttpStatus.GONE);
 	}
 	
 	@PutMapping("/professionalChange/{email}/{password}")
