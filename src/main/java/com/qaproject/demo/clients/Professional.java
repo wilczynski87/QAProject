@@ -31,12 +31,12 @@ public class Professional extends Consumer {
 		super(id);
 	}
 
-//	public String getLicenseNo() {
-//		return licenseNo;
-//	}
-//
-//	public void setLicenseNo(String licenseNo) {
-//		this.licenseNo = licenseNo;
-//	}
+	public String getLicenseNo() {
+		return licenseNo;
+	}
+
+	public void setLicenseNo(String licenseNo) {
+		this.licenseNo = licenseNo;
+	}
 
 }
