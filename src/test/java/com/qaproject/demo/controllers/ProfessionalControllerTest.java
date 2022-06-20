@@ -22,6 +22,7 @@ import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.ResultMatcher;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.qaproject.demo.address.ProfPos;
@@ -47,8 +48,9 @@ public class ProfessionalControllerTest {
 	@Autowired
 	private ProfessionalService ps;
 	
-	@Disabled("problem with lazy initialisation")
+	
 	@Test
+	@Transactional
 	public void registerClient() throws Exception {
 		//Given
 		String profId = UUID.randomUUID().toString();
@@ -64,8 +66,9 @@ public class ProfessionalControllerTest {
             .andExpect(content().json(this.mapper.writeValueAsString(profSaved)));
     }
 	
-	@Disabled("problem with lazy initialisation")
+	
 	@Test
+	@Transactional
 	public void loginClient() throws Exception {
 		//Given
 		String email = "email@email.com";
