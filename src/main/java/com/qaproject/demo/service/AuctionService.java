@@ -64,7 +64,8 @@ public class AuctionService {
 			if(bidList.size() > 0) this.bs.getBidsByAuctionId(id).forEach(bid -> this.bs.deleteBid(bid.getId()));
 			this.ar.deleteById(id);
 //			System.out.println(this.bs.getBidsByAuctionId(id));
-			return Optional.ofNullable(this.ar.findById(id)).isEmpty();
+			return this.ar.findById(id) == null ? true : false;
+//			return Optional.ofNullable(this.ar.findById(id)).isEmpty();
 		} return true;
 		
 	}
@@ -92,7 +93,7 @@ public class AuctionService {
 					return lowestBid >= filter.getLowestBid() ? true : false;
 				}) 
 				.filter(auction -> { // show auctions in distance smaller then given
-					if(Optional.ofNullable(prof.getAddress()).isEmpty() || Optional.ofNullable(auction.getAddress()).isEmpty()) {
+					if(Optional.ofNullable(prof.getAddress()) == null || auction.getAddress() == null) {
 						System.out.println("Can not find address of Professional or Auction");
 						return false;
 					} else {

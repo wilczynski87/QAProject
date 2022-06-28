@@ -44,7 +44,7 @@ public class ProfessionalService {
 		//checking for new client
 		Optional<Professional> newClient = Optional.ofNullable(this.pr.findProfessionalByEmailAndPassword(body.getEmail(), body.getPassword()));
 		
-		if(oldClient.isEmpty()) {
+		if(oldClient == null) {
 			throw new ClientAlredyExist("I can not find client...");
 		} else {
 			Professional found = oldClient.get();
@@ -86,7 +86,7 @@ public class ProfessionalService {
 		if(Optional.ofNullable(prof).isPresent()) {
 			this.pr.delete(prof);
 			Optional<Professional> afterDelete = Optional.ofNullable(this.pr.findProfessionalByEmailAndPassword(email, password));
-			return afterDelete.isEmpty();
+			return afterDelete == null;
 		} else return false;
 	}
 	

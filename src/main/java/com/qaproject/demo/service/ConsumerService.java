@@ -37,9 +37,9 @@ public class ConsumerService {
 	public Boolean delete(String email, String password) {
 		Optional<Consumer> idO = Optional.ofNullable(this.cr.findConsumerByEmailAndPassword(email, password));
 		
-		if(idO.isPresent()) {
-			this.cr.delete(idO.orElseThrow());
-			return idO.isEmpty();
+		if(idO != null) {
+			this.cr.delete(idO.get());
+			return idO != null;
 			
 		} else return false;
 	}
